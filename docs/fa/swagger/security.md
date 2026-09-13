@@ -1,16 +1,24 @@
 ---
-title: امنیت و ENV Swagger
+title: امنیت و Environment
 lang: fa
 ---
 
-# Security و Environment
+# امنیت و Environment
 
-Schema امنیت پیش‌فرض Bearer است:
+تنظیمات Security Scheme و نحوه نمایش Authorization در Swagger زیر بخش `module-generator.swagger.security` قرار دارند.
+
+## Scheme پیش‌فرض
+
+Config پیش‌فرض یک Bearer Scheme تعریف می‌کند:
 
 ```php
 'security' => [
-    'auth_middleware' => env('SWAGGER_AUTH_MIDDLEWARE', 'auth,auth:api,auth:sanctum'),
+    'auth_middleware' => env(
+        'SWAGGER_AUTH_MIDDLEWARE',
+        'auth,auth:api,auth:sanctum'
+    ),
     'default' => 'bearerAuth',
+    'secure_spec' => env('SWAGGER_SECURE_SPEC', false),
     'schemes' => [
         'bearerAuth' => [
             'type' => 'http',
@@ -21,17 +29,19 @@ Schema امنیت پیش‌فرض Bearer است:
 ],
 ```
 
-ENVهای مهم:
+`swagger:generate` Schemeهای تنظیم‌شده را به بخش `components.securitySchemes` در OpenAPI JSON اضافه می‌کند.
+
+## تنظیمات مرتبط
 
 ```env
-SWAGGER_SECURE_SPEC=false
 SWAGGER_PERSIST_AUTH=true
-SWAGGER_SHOW_MODELS=true
-SWAGGER_SHOW_EXAMPLES=true
 SWAGGER_SPEC_PATH=storage/swagger-ui
 SWAGGER_SPEC_FILENAME=swagger.json
-SWAGGER_SERVER_HOST=localhost
-SWAGGER_SERVER_PORT=8000
+SWAGGER_SECURE_SPEC=false
 ```
 
-اگر Documentation را در Production عمومی می‌کنی، آن را بخشی از Attack Surface برنامه حساب کن.
+`SWAGGER_PERSIST_AUTH` رفتار UI برای نگه‌داشتن اطلاعات Authorization را کنترل می‌کند و `SWAGGER_SECURE_SPEC` بخشی از تنظیمات مربوط به محافظت از Spec است.
+
+::: tip
+مقادیر واقعی محیط Production را داخل Exampleهای مستندات قرار ندهید؛ Exampleها باید قابل انتشار باقی بمانند.
+:::

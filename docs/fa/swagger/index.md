@@ -1,21 +1,37 @@
 ---
-title: OpenAPI و Swagger
+title: OpenAPI / Swagger
 lang: fa
 ---
 
 # OpenAPI / Swagger
 
-دو مسیر مرتبط برای Documentation API وجود دارد:
+Laravel Scaffolder یک Flow مستقل برای OpenAPI و Swagger UI دارد و برای Initialize کردن UI، ساخت JSON Spec یا Serve محلی به L5-Swagger وابسته نیست.
 
-1. Annotation سطح Module با `make:module --swagger`.
-2. JSON و UI مستقل با `swagger:generate`، `swagger:init` و `swagger:ui`.
-
-مسیر دوم به L5-Swagger وابسته نیست:
+Flow معمول:
 
 ```bash
 php artisan swagger:init
-php artisan swagger:generate --title="My API" --version=1.0.0
+php artisan swagger:generate
 php artisan swagger:ui
 ```
 
-تنظیمات زیر `module-generator.swagger` قرار دارند و بسیاری از آن‌ها ENV معادل دارند.
+## دستورات
+
+| دستور | کاربرد |
+| --- | --- |
+| `swagger:init` | Assetهای Swagger UI را در `storage/swagger-ui` آماده می‌کند. |
+| `swagger:generate` | OpenAPI 3.0 JSON را از Routeها و Controllerهای برنامه می‌سازد. |
+| `swagger:ui` | UI مستقل را با PHP Built-in Server اجرا می‌کند. |
+| `swagger:config` | تنظیمات Theme و ظاهر را نمایش یا تغییر می‌دهد. |
+| `make:swagger` | Generator قدیمی Annotation؛ Deprecated و فقط برای Compatibility. |
+
+## دو مسیر مستندسازی
+
+```bash
+php artisan make:module Product --swagger
+php artisan swagger:generate
+```
+
+اولی بخشی از `make:module` است؛ دومی کل برنامه را برای تولید Spec مستقل بررسی می‌کند.
+
+تنظیمات Swagger زیر کلید `swagger` در `config/module-generator.php` قرار دارند: Theme، رنگ‌ها، Fontها، Dark Mode، Host/Port، مسیر Spec و Security Schemeها.

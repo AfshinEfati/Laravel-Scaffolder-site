@@ -5,31 +5,47 @@ lang: fa
 
 # `swagger:config`
 
-برای دیدن یا تغییر تنظیمات Swagger UI بدون ویرایش دستی فایل‌ها:
+تنظیمات رایج Swagger UI را بدون ویرایش مستقیم Config مدیریت می‌کند:
+
+```bash
+php artisan swagger:config
+```
+
+بدون Option وارد حالت Interactive می‌شود.
+
+```text
+swagger:config
+  --show
+  --export-env
+  --theme=
+  --primary-color=
+  --secondary-color=
+  --title=
+  --reset
+```
 
 ```bash
 php artisan swagger:config --show
 ```
 
-Export به فرمت ENV:
+Theme، Colorها، Fontها، Dark Mode و Display Settingها را نمایش می‌دهد.
+
+```bash
+php artisan swagger:config \
+  --theme=dark \
+  --primary-color=#8b5cf6 \
+  --secondary-color=#06b6d4 \
+  --title="Internal API"
+```
 
 ```bash
 php artisan swagger:config --export-env
 ```
 
-تغییر مقادیر رایج:
-
-```bash
-php artisan swagger:config --theme=dark
-php artisan swagger:config --primary-color="#8b5cf6"
-php artisan swagger:config --secondary-color="#d946ef"
-php artisan swagger:config --title="Partner API"
-```
-
-Reset:
+فایل `.env.swagger` ساخته می‌شود تا تنظیمات را مرور و در صورت نیاز به Environment پروژه منتقل کنید.
 
 ```bash
 php artisan swagger:config --reset
 ```
 
-بدون Option، یک Flow تعاملی برای Theme و Color باز می‌شود و می‌تواند UI را دوباره Initialize کند.
+Reset قبل از تغییر مقادیر Default Confirmation می‌گیرد.
