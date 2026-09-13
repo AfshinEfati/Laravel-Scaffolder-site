@@ -5,14 +5,29 @@ lang: fa
 
 # `--force`
 
-به‌صورت پیش‌فرض Generator فایل موجود را حفظ می‌کند. فقط وقتی عمداً می‌خواهی خروجی دوباره ساخته شود از `--force` استفاده کن:
+اجازه می‌دهد Generator فایل‌های موجود را بازتولید و جایگزین کند:
+
+```bash
+php artisan make:module Product --force
+```
+
+بدون `--force`، Laravel Scaffolder فایل موجود را برای جلوگیری از حذف تغییرات دستی حفظ می‌کند.
+
+## نمونه‌ها
 
 ```bash
 php artisan make:module Product --all --force
 ```
 
-این Option بعد از تغییر Stub یا Config مفید است.
+```bash
+php artisan make:module Product --swagger --force
+```
 
-::: warning
-`--force` می‌تواند کدی را که بعد از Generation دستی تغییر داده‌ای بازنویسی کند. بعد از اجرا حتماً Git diff را بررسی کن.
+```bash
+php artisan make:module Product --api --force \
+  --fields="name:string,price:numeric"
+```
+
+::: danger
+`--force` Merge انجام نمی‌دهد. قبل از بازتولید ماژولی که دستی ویرایش شده، تغییرات را Commit یا Stash کنید.
 :::

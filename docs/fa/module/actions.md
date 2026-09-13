@@ -5,14 +5,37 @@ lang: fa
 
 # `--actions`
 
-Actionهای مجزا برای عملیات CRUD بساز:
+Actionهای متمرکز برای عملیات CRUD تولید می‌کند:
 
 ```bash
 php artisan make:module Product --actions
 ```
 
-خروجی معمول شامل List، Show، Create، Update و Delete Action است و در مسیر تنظیم‌شده‌ی `Actions` قرار می‌گیرد.
+خروجی زیر مسیر تنظیم‌شده‌ی Actions و پوشه‌ی ماژول قرار می‌گیرد، مثلاً:
 
-Actionها بین Controller و Service قرار می‌گیرند تا Controller نازک بماند و هر Use Case کلاس مشخص خودش را داشته باشد.
+```text
+app/Actions/Product/
+├── CreateProductAction.php
+├── DeleteProductAction.php
+├── ListProductAction.php
+├── ShowProductAction.php
+└── UpdateProductAction.php
+```
 
-در API mode این لایه خودکار فعال می‌شود مگر `--no-actions` بدهی.
+## ارتباط با DTO
+
+اگر DTO فعال باشد، Actionهای Create/Update با DTO کار می‌کنند. با `--no-dto` امضای بخش‌های مربوطه به حالت Array-based تغییر می‌کند.
+
+```bash
+php artisan make:module Product --actions --no-dto
+```
+
+## API Mode
+
+API Mode به‌صورت خودکار Actionها را فعال می‌کند مگر اینکه `--no-actions` داده باشید:
+
+```bash
+php artisan make:module Product --api --no-actions
+```
+
+`--all` و `--full` در انتها Actionها را دوباره فعال می‌کنند.

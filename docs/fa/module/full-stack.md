@@ -1,24 +1,60 @@
 ---
-title: --all و --full
+title: --all / --full
 lang: fa
 ---
 
 # `--all` / `--full`
 
-هر دو Option یک Stack کامل API می‌سازند:
+Stack کامل ماژول را فعال می‌کند:
 
 ```bash
 php artisan make:module Product --all
 ```
 
-یا:
+Aliasها:
 
 ```bash
+php artisan make:module Product -a
 php artisan make:module Product --full
+php artisan make:module Product -f
 ```
 
-Full Stack، Controller، Request، Feature Test، Resource، Provider، Action، Policy و Swagger را روشن و API mode را فعال می‌کند. DTO مقدار قبلی خودش را حفظ می‌کند؛ در Default روشن است اما `--no-dto` می‌تواند خاموشش نگه دارد.
+`--all` در کد به Full Stack تبدیل می‌شود، بنابراین هر دو رفتار یکسانی دارند.
 
-::: warning ترتیب فعلی اجرای Optionها
-در پیاده‌سازی فعلی، Full Stack بعد از بیشتر `--no-*`ها اجرا می‌شود. در نتیجه `--all/--full` دوباره Controller، Request، Test، Resource، Provider، Action، Policy و Swagger را روشن می‌کند، حتی اگر Skip Flag مربوط به آن‌ها را هم داده باشی. `--no-dto` استثنای مهم این رفتار است.
-:::
+## بخش‌هایی که Full Stack صریحاً فعال می‌کند
+
+```text
+Repository          همیشه
+Service             همیشه
+Controller          بله
+Form Requests       بله
+Feature Test        بله
+API Resource        بله
+Provider            بله
+Actions             بله
+Policy              بله
+Swagger             بله
+Controller type     API
+```
+
+### استثنای DTO
+
+Full Stack مقدار DTO را به اجبار `true` نمی‌کند. با Config پیش‌فرض DTO فعال است و `--all` معمولی DTO می‌سازد؛ اما این دستور DTO را خاموش نگه می‌دارد:
+
+```bash
+php artisan make:module Product --all --no-dto
+```
+
+در این حالت لایه‌های وابسته از Data Array استفاده می‌کنند.
+
+## اولویت Optionها
+
+Full Stack در انتهای Flow اعمال می‌شود؛ بنابراین Optionهایی مثل `--no-actions`، `--no-policy`، `--no-provider`، `--no-resource`، `--no-controller`، `--no-test` و `--no-swagger` را دوباره فعال می‌کند.
+
+```bash
+php artisan make:module Product --all --no-actions
+```
+
+Action همچنان ساخته می‌شود.
+
+تنها استثنای مهم این مجموعه `--no-dto` است.

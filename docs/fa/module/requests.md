@@ -1,20 +1,46 @@
 ---
-title: --requests
+title: --requests / -r
 lang: fa
 ---
 
 # `--requests` / `-r`
 
-برای ساخت `Store...Request` و `Update...Request`:
+برای ماژول، Form Request جداگانه‌ی Store و Update تولید می‌کند:
 
 ```bash
 php artisan make:module Product --requests
 ```
 
-Validation Ruleها بر اساس Schema ساخته می‌شوند؛ Type، Nullable، Unique و Foreign Key در صورت موجود بودن وارد Rule می‌شوند.
+خروجی معمول:
 
-API mode به‌صورت خودکار Requestها را روشن می‌کند:
+```text
+app/Http/Requests/StoreProductRequest.php
+app/Http/Requests/UpdateProductRequest.php
+```
+
+## Validation بر اساس Schema
+
+Ruleها از Metadata فیلدها استخراج می‌شوند:
 
 ```bash
-php artisan make:module Product --api
+php artisan make:module Product --requests \
+  --fields="name:string:unique,price:decimal(10,2),category_id:integer:fk=categories.id"
 ```
+
+نمونه‌ی Rule حاصل می‌تواند به این شکل باشد:
+
+```php
+return [
+    'name' => ['required', 'string', 'unique:products,name'],
+    'price' => ['required', 'numeric'],
+    'category_id' => ['required', 'integer', 'exists:categories,id'],
+];
+```
+
+## ارتباط با API Mode
+
+`--api` به‌صورت خودکار Requestها را فعال می‌کند؛ `--all` و `--full` نیز Request را روشن می‌کنند.
+
+::: info
+در Signature فعلی `--no-requests` نداریم.
+:::

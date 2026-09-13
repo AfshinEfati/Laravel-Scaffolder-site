@@ -1,16 +1,42 @@
 ---
-title: --tests
+title: --tests / -t
 lang: fa
 ---
 
 # `--tests` / `-t`
 
-در Config اصلی Feature Test به‌صورت پیش‌فرض روشن است. `--tests` برای پروژه‌ای که Default را خاموش کرده، آن را صریحاً فعال می‌کند:
+Feature Test را برای ماژول به‌صورت صریح فعال می‌کند:
 
 ```bash
 php artisan make:module Product --tests
 ```
 
-Generator در صورت داشتن Metadata فیلدها، Payload و Assertionهای اولیه‌ی تست را از همان Schema می‌سازد.
+مسیر پیش‌فرض از Config می‌آید:
 
-برای خاموش کردن از [`--no-test`](/fa/module/no-test) استفاده کن.
+```php
+'tests' => [
+    'feature' => 'tests/Feature',
+],
+```
+
+بنابراین خروجی معمول:
+
+```text
+tests/Feature/ProductTest.php
+```
+
+Test Generator اطلاعات Fieldها را نیز دریافت می‌کند تا Payload و Assertion اولیه از Schema قابل استفاده‌تری ساخته شود.
+
+```bash
+php artisan test --filter=ProductTest
+```
+
+## اولویت با `--no-test`
+
+`--tests` بعد از `--no-test` بررسی می‌شود؛ اگر هر دو را بدهید، Test ساخته می‌شود:
+
+```bash
+php artisan make:module Product --no-test --tests
+```
+
+`--all` و `--full` نیز Test را فعال می‌کنند.

@@ -1,18 +1,22 @@
 ---
-title: --no-resource
+title: --no-resource / -nr
 lang: fa
 ---
 
-# `--no-resource`
+# `--no-resource` / `-nr`
 
-API Resource را خاموش کن:
+تولید Laravel API Resource را غیرفعال می‌کند:
 
 ```bash
 php artisan make:module Product --no-resource
 ```
 
-وقتی پروژه از Transformer، DTO خروجی یا Response Layer دیگری استفاده می‌کند مفید است.
+Controller Generator نیز از نبود Resource مطلع می‌شود تا کدی تولید نکند که به `ProductResource` ناموجود وابسته باشد.
 
-::: warning
-در Full Stack فعلی، `--all/--full` Resource را دوباره فعال می‌کند.
-:::
+این Option برای پروژه‌هایی مناسب است که Transformer یا Serializer اختصاصی دارند.
+
+```bash
+php artisan make:module Product --api --no-resource
+```
+
+`--all` و `--full` Resource را دوباره فعال می‌کنند.

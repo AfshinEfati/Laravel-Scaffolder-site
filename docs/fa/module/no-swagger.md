@@ -5,14 +5,18 @@ lang: fa
 
 # `--no-swagger`
 
-Swagger سطح Module را در Generation معمول خاموش کن:
+Swagger/OpenAPI مربوط به Flow `make:module` را غیرفعال می‌کند:
 
 ```bash
 php artisan make:module Product --no-swagger
 ```
 
-::: warning اولویت Full Stack
-در پیاده‌سازی فعلی `--all/--full` بعداً Swagger را دوباره روشن می‌کند، پس `--all --no-swagger` همچنان خروجی Swagger می‌سازد.
-:::
+در Build عادی این Option بعد از `--swagger` اعمال می‌شود، بنابراین اگر هر دو باشند، Swagger ساخته نمی‌شود:
 
-اگر فقط JSON مبتنی بر Route می‌خواهی، [`swagger:generate`](/fa/swagger/generate) مستقل از این قابلیت قابل استفاده است.
+```bash
+php artisan make:module Product --swagger --no-swagger
+```
+
+`--all` و `--full` بعدتر Swagger را دوباره فعال می‌کنند.
+
+این Option روی دستورهای مستقل `swagger:init`، `swagger:generate`، `swagger:ui` و `swagger:config` اثری ندارد.

@@ -5,14 +5,16 @@ lang: fa
 
 # `--no-actions`
 
-Action Layer را صریحاً خاموش کن:
+Action Layer را غیرفعال می‌کند:
+
+```bash
+php artisan make:module Product --no-actions
+```
+
+این Option مخصوصاً در API Mode مهم است، چون API به‌صورت خودکار Actionها را فعال می‌کند:
 
 ```bash
 php artisan make:module Product --api --no-actions
 ```
 
-در API mode مهم است چون API به‌صورت خودکار Actionها را روشن می‌کند.
-
-::: warning
-در Full Stack فعلی، `--all/--full` Action را دوباره فعال می‌کند.
-:::
+در Build عادی `--no-actions` حتی Auto-enable شدن API Mode را هم خنثی می‌کند. اما `--all` و `--full` بعدتر اجرا می‌شوند و Actionها را دوباره روشن می‌کنند.

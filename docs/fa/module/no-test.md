@@ -1,18 +1,20 @@
 ---
-title: --no-test
+title: --no-test / -nt
 lang: fa
 ---
 
-# `--no-test`
+# `--no-test` / `-nt`
 
-Feature Test تولید نکن:
+Feature Test تولیدشده توسط Scaffolder را حذف می‌کند:
 
 ```bash
 php artisan make:module Product --no-test
 ```
 
-چون Default پکیج Test را روشن دارد، این Flag راه صریح خاموش کردن آن در Generation معمول است.
+اگر همزمان `--tests` بدهید، چون Option مثبت بعدتر اعمال می‌شود Test ساخته خواهد شد:
 
-::: warning
-`--all/--full` در رفتار فعلی Test را دوباره فعال می‌کند.
-:::
+```bash
+php artisan make:module Product --no-test --tests
+```
+
+`--all` و `--full` نیز Test را دوباره فعال می‌کنند.

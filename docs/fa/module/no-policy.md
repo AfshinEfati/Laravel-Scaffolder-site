@@ -5,12 +5,20 @@ lang: fa
 
 # `--no-policy`
 
-Policy را در Generation معمول خاموش کن، مثلاً وقتی Config پروژه آن را روشن کرده:
+Policy Generation را صریحاً خاموش می‌کند:
+
+```bash
+php artisan make:module Product --no-policy
+```
+
+اگر Config پروژه Policy را به‌صورت Default فعال کرده باشد، این Option برای یک ماژول خاص آن را غیرفعال می‌کند.
+
+در Build عادی `--no-policy` بعد از `--policy` اعمال می‌شود:
 
 ```bash
 php artisan make:module Product --policy --no-policy
 ```
 
-::: warning اولویت Full Stack
-در پیاده‌سازی فعلی `--all` و `--full` بعد از Skip Flagها Policy را دوباره روشن می‌کنند؛ بنابراین `--all --no-policy` همچنان Policy می‌سازد. برای حذف Policy از Full Stack فعلی باید به‌جای `--all` ترکیب Optionهای موردنیاز را جداگانه انتخاب کنی.
-:::
+Policy ساخته نمی‌شود.
+
+`--all` و `--full` در انتها Policy را دوباره فعال می‌کنند.

@@ -1,18 +1,22 @@
 ---
-title: --no-controller
+title: --no-controller / -nc
 lang: fa
 ---
 
-# `--no-controller`
+# `--no-controller` / `-nc`
 
-Controller را نساز اما Repository، Service و سایر خروجی‌های فعال را نگه دار:
+Controller را از خروجی حذف می‌کند:
 
 ```bash
 php artisan make:module Product --no-controller
 ```
 
-برای Moduleهایی که مستقیم Endpoint HTTP ندارند مناسب است.
+Repository، Service و سایر لایه‌های فعال همچنان ساخته می‌شوند. این حالت برای Featureهایی که از Job، Event، Console یا Transport دیگری استفاده می‌کنند مناسب است.
 
-::: warning
-`--all` و `--full` در رفتار فعلی Controller را دوباره روشن می‌کنند.
-:::
+اگر `--controller=...` هم بدهید، مقدار صریح Subfolder بعداً Controller را دوباره فعال می‌کند:
+
+```bash
+php artisan make:module Product --no-controller --controller=Admin
+```
+
+`--all` و `--full` نیز Controller را دوباره فعال می‌کنند.
