@@ -5,16 +5,37 @@ lang: en
 
 # API Resources
 
-API Resource generation is enabled by default and uses discovered field/relation metadata.
+The Resource generator creates:
 
-```php
-return [
-    'id' => $this->id,
-    'name' => $this->name,
-    'price' => $this->price,
-];
+```text
+app/Http/Resources/ProductResource.php
 ```
 
-Relations discovered from schema/runtime information can be represented using Laravel's conditional relation helpers so unloaded relations do not trigger extra queries.
+It uses field metadata/model fillable data, casts and discovered relations to build a useful `JsonResource` instead of a blank transformer.
 
-Disable resource generation with `--no-resource` if your application has its own response mapping layer.
+## Field formatting
+
+Generated fields include `id` plus the fillable/schema fields. Special values are normalized through the published helper:
+
+```text
+date/datetime or *_at -> ApiResponseHelper::formatDates(...)
+boolean or is_*/has_* -> ApiResponseHelper::getStatus(...)
+```
+
+Other fields are returned directly.
+
+## Relations
+
+Relations discovered from migration metadata or callable model relations are serialized conditionally with `whenLoaded()`.
+
+Collection-style relations such as has-many/belongs-to-many use the related Resource collection when that Resource class exists. Single relations use the related Resource instance. If the related Resource has not been generated, the loaded relation itself is returned.
+
+This design avoids triggering database queries simply because a Resource knows about a relation.
+
+## Disable
+
+```bash
+php artisan make:module Product --no-resource
+```
+
+The controller generator adapts so it does not reference a missing Resource.

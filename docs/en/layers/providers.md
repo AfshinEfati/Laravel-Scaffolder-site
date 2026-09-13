@@ -1,17 +1,37 @@
 ---
-title: Providers and bindings
+title: Providers & bindings
 lang: en
 ---
 
-# Providers and bindings
+# Providers & bindings
 
-A module provider binds generated contracts to concrete repository/service implementations.
+The Provider generator creates a module provider that binds repository and service contracts to their concrete implementations.
+
+```text
+app/Providers/ProductServiceProvider.php
+```
+
+Conceptually it owns bindings such as:
 
 ```php
 $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
 $this->app->bind(ProductServiceInterface::class, ProductService::class);
 ```
 
-The generator also attempts to register the provider using the Laravel version's application/provider structure.
+## Automatic registration
 
-If you pass `--no-provider`, no automatic binding file is generated and you must register the interfaces yourself.
+The generator supports both common Laravel application layouts.
+
+If `bootstrap/providers.php` exists, it inserts the provider class into that returned provider array. Otherwise it attempts the older `config/app.php` providers array.
+
+Registration is idempotent: it checks whether the FQCN already exists before inserting it.
+
+## Skip provider generation
+
+```bash
+php artisan make:module Product --no-provider
+```
+
+The command warns that bindings are now your responsibility, and service generation switches to the concrete repository type for that generated module.
+
+`--all` / `--full` re-enable provider generation.

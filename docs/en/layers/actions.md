@@ -5,16 +5,45 @@ lang: en
 
 # Actions
 
-Action generation creates focused operation classes for CRUD workflows. Depending on schema relations, list actions may include relation-aware behavior.
+Action generation creates a shared base action plus focused operations for the module.
 
-```php
-final class CreateProductAction
-{
-    public function __invoke(ProductDTO $dto): Product
-    {
-        return $this->service->create($dto);
-    }
-}
+```bash
+php artisan make:module Product --actions
 ```
 
-API controllers can delegate to actions instead of directly coordinating services, keeping transport concerns separate from application operations.
+With default paths:
+
+```text
+app/Actions/BaseAction.php
+app/Actions/Product/
+├── ListProductAction.php
+├── ShowProductAction.php
+├── CreateProductAction.php
+├── UpdateProductAction.php
+├── DeleteProductAction.php
+└── ListWithRelationsProductAction.php
+```
+
+## Service-oriented operations
+
+Each generated action coordinates the Product service for one operation. The additional `ListWithRelations` action gives relation-aware list flows a separate application entry point instead of overloading the normal list action.
+
+## DTO mode
+
+Create/update action payload docs and imports change according to DTO mode:
+
+```bash
+php artisan make:module Product --actions --no-dto
+```
+
+Without DTOs, those actions use array-based payloads.
+
+## API default
+
+API mode automatically enables Actions unless `--no-actions` is supplied.
+
+```bash
+php artisan make:module Product --api --no-actions
+```
+
+The `BaseAction` stub also provides common action infrastructure such as access to the configured logging channel.

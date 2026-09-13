@@ -11,53 +11,22 @@ Force feature-test generation for a module.
 php artisan make:module Product --tests
 ```
 
-Short form:
-
-```bash
-php artisan make:module Product -t
-```
-
-The default destination is configured by:
-
-```php
-'tests' => [
-    'feature' => 'tests/Feature',
-],
-```
-
-so a Product module normally creates:
+The default destination produces:
 
 ```text
-tests/Feature/ProductTest.php
+tests/Feature/ProductCrudTest.php
 ```
 
-## Schema-aware payloads
+The generated class is `ProductCrudTest` and receives schema metadata for realistic CRUD payload scaffolding.
 
-The test generator receives the parsed field metadata. This lets it create a more useful CRUD test starting point instead of an empty class.
-
-```bash
-php artisan make:module Product --tests \
-  --fields="name:string,price:numeric,is_active:boolean"
-```
-
-After generation, run the test normally:
+Run it with:
 
 ```bash
-php artisan test --filter=ProductTest
+php artisan test --filter=ProductCrudTest
 ```
 
 ## Interaction with `--no-test`
 
-The command first applies `--no-test`, then applies `--tests`. If both are present, the explicit positive `--tests` switch wins.
+`--tests` is evaluated after `--no-test`, so the positive option wins when both are supplied.
 
-```bash
-php artisan make:module Product --no-test --tests
-```
-
-will generate the feature test.
-
-`--all` and `--full` also enable tests regardless of earlier disable switches.
-
-::: warning
-Generated tests are scaffolding. Add your authorization cases, domain invariants, failure paths and project-specific assertions after generation.
-:::
+`--all` / `--full` also enable tests regardless of an earlier `--no-test`.

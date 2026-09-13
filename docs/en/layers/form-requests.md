@@ -5,21 +5,33 @@ lang: en
 
 # Form Requests
 
-The generator creates separate store and update request classes when requests are enabled.
+When enabled, two request classes are generated inside a module-specific request folder:
 
 ```text
-StoreProductRequest.php
-UpdateProductRequest.php
+app/Http/Requests/Product/StoreProductRequest.php
+app/Http/Requests/Product/UpdateProductRequest.php
 ```
 
-Rules are inferred from schema metadata. String/email/url, numeric, boolean, date/datetime, array/json and foreign fields are translated into appropriate Laravel validation constraints. Nullable and unique metadata are carried into rules when discovered.
-
-```php
-public function rules(): array
-{
-    return [
-        'name' => ['required', 'string', 'unique:products,name'],
-        'price' => ['required', 'numeric'],
-    ];
-}
+```bash
+php artisan make:module Product --requests
 ```
+
+API mode enables them automatically.
+
+## Schema-aware rules
+
+Explicit field metadata produces type-aware validation:
+
+```bash
+php artisan make:module Product --fields="email:email:unique,user_id:integer:fk=users.id,total:decimal(12,2)"
+```
+
+Rules can include `required`/`nullable`, string length, integer/numeric/boolean/date/array/uuid/email/url validation, uniqueness and foreign `exists` checks.
+
+## Update uniqueness
+
+The update request is built separately and knows the module route parameter/table so generated unique rules can ignore the current record rather than treating its own value as a conflict.
+
+## Table resolution
+
+The request generator prefers an explicitly parsed migration table, then the model table, then Laravel-style plural snake-case inference.
