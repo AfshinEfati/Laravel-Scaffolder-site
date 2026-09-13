@@ -5,10 +5,14 @@ lang: en
 
 # `--no-swagger`
 
-Disable module-level Swagger/OpenAPI annotation generation:
+Explicitly disable module-level Swagger/OpenAPI annotation generation when Swagger would otherwise be enabled by configuration:
 
 ```bash
-php artisan make:module Product --all --no-swagger
+php artisan make:module Product --no-swagger
 ```
 
-This is useful when your project relies only on route-driven [`swagger:generate`](/en/swagger/generate) output or maintains OpenAPI documents separately.
+::: warning Full-stack precedence
+In the current implementation, `--all` and `--full` enable Swagger after the individual skip switches are evaluated. Therefore `--all --no-swagger` still generates Swagger output. Use a non-full-stack combination when you need to omit it.
+:::
+
+If your project only needs route-driven JSON output, you can use [`swagger:generate`](/en/swagger/generate) independently of module annotations.
