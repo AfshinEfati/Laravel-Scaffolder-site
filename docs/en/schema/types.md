@@ -5,21 +5,28 @@ lang: en
 
 # Supported field types
 
-`SchemaParser` normalizes common migration/CLI type names into canonical types used by the generators.
+`SchemaParser` normalizes common database aliases into a smaller set of canonical types used by generators.
 
 | Input examples | Canonical type |
 | --- | --- |
 | `char`, `varchar`, `string` | `string` |
 | `text`, `mediumText`, `longText` | `text` |
-| `int`, `bigInteger`, `smallInt`, `foreignId`, increments variants | `integer` |
+| `int`, `integer`, `bigInteger`, `foreignId`, increments variants | `integer` |
 | `decimal`, `double`, `float`, `numeric` | `numeric` |
 | `bool`, `boolean` | `boolean` |
 | `date` | `date` |
-| `datetime`, `timestamp`, timezone variants | `datetime` |
+| `datetime`, `datetimeTz`, `timestamp`, `timestampTz` | `datetime` |
 | `json`, `jsonb` | `json` |
 | `array` | `array` |
 | `uuid` | `uuid` |
 | `email` | `email` |
 | `url` | `url` |
 
-Unknown type names are preserved after normalization so custom project conventions can still flow through metadata.
+Type parameters are normalized away for the canonical type, while the parser still correctly keeps a field definition together when parameters contain commas.
+
+```bash
+php artisan make:module Invoice \
+  --fields="reference:uuid,total:decimal(12,2),meta:jsonb:nullable"
+```
+
+Generators then map canonical types to PHP typing, validation rules, sample data and OpenAPI metadata as appropriate.

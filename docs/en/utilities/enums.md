@@ -5,18 +5,60 @@ lang: en
 
 # Enum helper trait
 
-`EnumHelperTrait` adds convenience behavior for PHP enums used in Laravel applications.
+`EnumHelperTrait` adds API-friendly lookup and mapping helpers to PHP backed enums.
 
 ```php
-enum Status: int
-{
-    use \Efati\ModuleGenerator\Enums\Concerns\EnumHelperTrait;
+use Efati\ModuleGenerator\Enums\Concerns\EnumHelperTrait;
 
-    case Draft = 0;
-    case Published = 1;
+enum OrderStatus: int
+{
+    use EnumHelperTrait;
+
+    case Pending = 1;
+    case Paid = 2;
+
+    public function faName(): string
+    {
+        return match ($this) {
+            self::Pending => 'در انتظار',
+            self::Paid => 'پرداخت شده',
+        };
+    }
 }
 ```
 
-Use the helper when you want consistent enum value/label utilities while keeping the enum itself native PHP.
+## `toList()`
 
-Because enum display conventions vary by project, review the trait API in your installed package before coupling external clients to its output.
+```php
+OrderStatus::toList();
+```
+
+Returns rows shaped as:
+
+```php
+[
+    'name' => 'Pending',
+    'fa_name' => 'در انتظار',
+    'code' => 1,
+]
+```
+
+If the enum does not define `faName()`, `fa_name` is `null`.
+
+## `toMap()`
+
+```php
+OrderStatus::toMap();
+```
+
+Keys the same metadata by backed enum value.
+
+## Find helpers
+
+```php
+OrderStatus::findByValue(1);
+OrderStatus::findByValue(OrderStatus::Paid);
+OrderStatus::findByName('Pending');
+```
+
+Unknown values/names return `null`. `findByValue` accepts integers, strings and a BackedEnum instance.

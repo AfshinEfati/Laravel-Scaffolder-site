@@ -5,37 +5,56 @@ lang: en
 
 # Quick start
 
-Create a model and migration first:
+The smallest normal workflow is to create a model and migration, then scaffold the feature around it.
 
 ```bash
 php artisan make:model Product -m
-```
-
-Then generate the module:
-
-```bash
+php artisan migrate
 php artisan make:module Product
 ```
 
-The default package configuration uses API controllers. API mode automatically enables form requests and actions unless you explicitly disable actions.
+With the shipped configuration, the command uses API mode and produces repository/service layers plus DTO, resource, provider, controller, requests, actions and a feature test.
 
-For a complete stack including policies and Swagger documentation:
+## Generate the complete stack
 
 ```bash
 php artisan make:module Product --all
 ```
 
-You can also generate without an existing model by supplying field metadata:
+This additionally enables policy and Swagger generation. See the [`--all / --full`](/en/module/full-stack) page for the exact precedence rules.
+
+## Generate before a model exists
+
+Provide the schema directly:
 
 ```bash
 php artisan make:module Product --api \
-  --fields="name:string:unique,price:decimal(10,2),is_active:boolean"
+  --fields="name:string:unique,price:decimal(10,2),stock:integer,is_active:boolean"
 ```
 
-Or point the generator at a migration:
+Or point to an existing migration:
 
 ```bash
-php artisan make:module Product --from-migration=create_products_table
+php artisan make:module Product \
+  --from-migration=database/migrations/2026_09_01_000000_create_products_table.php
 ```
 
-Generated files are never silently overwritten. Use `--force` only when you intentionally want regeneration.
+A normal model-less generation fails when neither inline fields nor an explicit migration hint is available.
+
+## Start Swagger UI
+
+```bash
+php artisan swagger:init
+php artisan swagger:generate
+php artisan swagger:ui
+```
+
+## Regenerating
+
+Laravel Scaffolder does not silently overwrite generated files. When regeneration is intentional:
+
+```bash
+php artisan make:module Product --all --force
+```
+
+Review application changes before forcing replacements.

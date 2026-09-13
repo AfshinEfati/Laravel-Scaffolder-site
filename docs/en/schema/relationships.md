@@ -3,22 +3,29 @@ title: Relationships
 lang: en
 ---
 
-# Relationships
+# Relationship discovery
 
-Laravel Scaffolder can discover relation metadata from foreign-key migrations and runtime model inspection. That information is reused by resources, actions and schema-aware generation.
+Laravel Scaffolder carries relationship metadata alongside fields so Resource, Action, Swagger and other generators can produce relation-aware output where supported.
 
-A migration such as:
+## Foreign-key metadata
 
-```php
-$table->foreignId('user_id')->constrained()->cascadeOnDelete();
-```
-
-or an inline definition:
+The simplest explicit relation hint is a foreign field:
 
 ```bash
---fields="user_id:integer:fk=users.id"
+php artisan make:module Post \
+  --fields="title:string,user_id:integer:fk=users.id"
 ```
 
-provides enough metadata for the generator to understand the foreign target.
+The parser records the referenced table and column.
 
-Runtime model parsing can add richer relationship information when Eloquent relation methods are available and safely inspectable.
+## Runtime and migration discovery
+
+Without `--fields`, relation metadata may come from runtime inspection and migration parsing. The command merges those sources and can rebuild relation metadata after aligning fields to the model's fillable columns.
+
+## API Resources
+
+Discovered relations can be represented with Laravel conditional relation helpers so serialization does not need to trigger an accidental query merely because a relation exists.
+
+## Keep business relations explicit
+
+Schema inference can identify structural relationships, but it cannot decide domain semantics such as custom relation names, scopes or ownership rules. Treat generated relations as scaffolding and refine them in application code.

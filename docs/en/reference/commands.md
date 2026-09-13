@@ -5,22 +5,71 @@ lang: en
 
 # Command index
 
-| Command | Purpose |
-| --- | --- |
-| `make:module {name}` | Generate the layered feature stack |
-| `swagger:init` | Initialize standalone Swagger UI assets |
-| `swagger:generate` | Generate OpenAPI JSON from routes |
-| `swagger:ui` | Serve the standalone Swagger UI |
-| `swagger:config` | Inspect/update Swagger UI settings |
-| `make:swagger` | Deprecated annotation-oriented route scanner |
+## `make:module`
 
-Quick examples:
+Main feature scaffolder:
 
-```bash
-php artisan make:module Product --all
-php artisan swagger:init
-php artisan swagger:generate --title="Store API"
-php artisan swagger:ui --refresh
+```text
+make:module {name}
+  -c|--controller=
+  --api
+  -r|--requests
+  -t|--tests
+  -nc|--no-controller
+  -nr|--no-resource
+  -nd|--no-dto
+  -nt|--no-test
+  -np|--no-provider
+  --actions
+  --no-actions
+  --policy
+  --no-policy
+  -sg|--swagger
+  --no-swagger
+  -a|--all
+  -f|--full
+  -fm|--from-migration=
+  --fields=
+  --force
 ```
 
-See the individual pages for every option and behavior.
+See the [complete option reference](/en/module/overview).
+
+## `swagger:init`
+
+```text
+swagger:init --force
+```
+
+## `swagger:generate`
+
+```text
+swagger:generate --output= --title= --version= --host=
+```
+
+## `swagger:ui`
+
+```text
+swagger:ui --port=8000 --host=localhost --refresh
+```
+
+## `swagger:config`
+
+```text
+swagger:config
+  --show
+  --export-env
+  --theme=
+  --primary-color=
+  --secondary-color=
+  --title=
+  --reset
+```
+
+## Deprecated `make:swagger`
+
+```text
+make:swagger --path= --controller= -f|--force --output=
+```
+
+Prefer `swagger:generate` for new projects.

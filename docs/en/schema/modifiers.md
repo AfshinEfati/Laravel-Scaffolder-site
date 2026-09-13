@@ -1,20 +1,53 @@
 ---
-title: Modifiers and foreign keys
+title: Modifiers & foreign keys
 lang: en
 ---
 
-# Modifiers and foreign keys
+# Modifiers & foreign keys
 
-The inline parser recognizes nullable/required, unique and foreign-key metadata.
+Field modifiers add validation and relation metadata to an inline schema.
+
+## Nullable
 
 ```text
-nickname:string:nullable
-email:email:required:unique
+published_at:datetime:nullable
+```
+
+Aliases: `nullable`, `null`, `optional`.
+
+## Required
+
+Fields are non-null by default. Explicit required aliases can override an earlier nullable token in the same parsed modifier sequence:
+
+```text
+name:string:nullable:required
+```
+
+Aliases: `required`, `notnull`, `not-null`.
+
+## Unique
+
+```text
+email:email:unique
+```
+
+Aliases: `unique`, `uniq`.
+
+This metadata is reused by Form Request generation so create/update validation can include uniqueness rules.
+
+## Foreign keys
+
+```text
 user_id:integer:fk=users.id
-team_id:integer:foreign(teams.id)
+category_id:integer:foreign=categories.id
 owner_id:integer:references=users.id
 ```
 
-Accepted nullable aliases include `nullable`, `null` and `optional`. Required aliases include `required`, `notnull` and `not-null`. Unique accepts `unique` or `uniq`.
+Foreign metadata contains both the referenced table and column. It can influence validation (`exists`) and relation-aware generated output.
 
-Foreign metadata accepts `fk`, `foreign` or `references`; when the target column is omitted it defaults to `id`.
+## Combining modifiers
+
+```bash
+php artisan make:module Post \
+  --fields="slug:string:unique,author_id:integer:fk=users.id,published_at:datetime:nullable"
+```

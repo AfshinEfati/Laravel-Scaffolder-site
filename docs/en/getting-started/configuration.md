@@ -5,26 +5,54 @@ lang: en
 
 # Configuration
 
-Publish the package configuration when you want project-level defaults:
+Publish the package config with:
 
 ```bash
 php artisan vendor:publish --tag=module-generator
 ```
 
-The important top-level keys are:
+The generated `config/module-generator.php` controls namespaces, output paths, command defaults, Swagger UI behavior and the logging channel used by generated actions.
+
+## Base namespace
 
 ```php
-return [
-    'base_namespace' => 'App',
-    'paths' => [/* generated class paths */],
-    'tests' => ['feature' => 'tests/Feature'],
-    'defaults' => [/* make:module behavior */],
-    'swagger' => [/* UI, spec and security settings */],
-    'logging_channel' => env('MODULE_GENERATOR_LOG_CHANNEL'),
-];
+'base_namespace' => 'App',
 ```
 
-The shipped defaults generate a controller, feature test, API resource, DTO and provider. `controller_type` is `api`, so a plain `make:module` call also enables form requests and actions through API mode.
+The generator expects models below `{base_namespace}\Models` and uses the same root when composing generated namespaces.
+
+## Output paths
+
+```php
+'paths' => [
+    'repository' => [
+        'eloquent' => 'Repositories/Eloquent',
+        'contracts' => 'Repositories/Contracts',
+    ],
+    'service' => [
+        'concretes' => 'Services',
+        'contracts' => 'Services/Contracts',
+    ],
+    'dto' => 'DTOs',
+    'provider' => 'Providers',
+    'controller' => [
+        'api' => 'Http/Controllers/Api/V1',
+        'web' => 'Http/Controllers',
+    ],
+    'resource' => 'Http/Resources',
+    'form_request' => 'Http/Requests',
+    'actions' => 'Actions',
+    'docs' => 'Docs',
+],
+```
+
+Feature tests use a project-root-relative path:
+
+```php
+'tests' => ['feature' => 'tests/Feature'],
+```
+
+## Command defaults
 
 ```php
 'defaults' => [
@@ -40,4 +68,27 @@ The shipped defaults generate a controller, feature test, API resource, DTO and 
 ],
 ```
 
-CLI switches always take precedence over these defaults. See the [configuration reference](/en/reference/configuration) for every key.
+CLI switches modify these values for one command invocation. API mode has additional behavior: it enables requests and actions unless actions are explicitly disabled.
+
+## Swagger
+
+The `swagger` section controls:
+
+- `theme`: `vanilla`, `tailwind`, `dark`;
+- complete UI color palette;
+- UI and monospace fonts;
+- dark-mode enable/default/persistence;
+- title, description, models/examples and auth persistence;
+- standalone server host/port;
+- spec path, filename and secure flag;
+- authentication middleware and OpenAPI security schemes.
+
+See the [configuration reference](/en/reference/configuration) for the full key map.
+
+## Logging
+
+```php
+'logging_channel' => env('MODULE_GENERATOR_LOG_CHANNEL'),
+```
+
+Generated action infrastructure can use this channel when application logging is needed.

@@ -11,32 +11,54 @@ Install Laravel Scaffolder with Composer:
 composer require efati/laravel-scaffolder
 ```
 
-Laravel package discovery registers `Efati\ModuleGenerator\ModuleGeneratorServiceProvider` automatically, so no manual provider registration is required in a normal Laravel application.
+Laravel package discovery registers `Efati\ModuleGenerator\ModuleGeneratorServiceProvider` automatically. In a normal Laravel application you do not need to add the provider manually.
 
-## Publish the base files
+## Requirements
 
-The package can publish its base repositories, base services, criteria interface, API response helper and configuration file:
+The current package metadata supports:
+
+```text
+PHP      8.1, 8.2, 8.3, 8.4, 8.5
+Laravel  10, 11, 12, 13
+Composer 2.x recommended
+```
+
+## Publish the base application files
 
 ```bash
 php artisan vendor:publish --tag=module-generator
 ```
 
-This may create files such as:
+This publishes the package configuration and application-level base classes:
 
 ```text
+config/module-generator.php
 app/Repositories/Eloquent/BaseRepository.php
 app/Repositories/Contracts/BaseRepositoryInterface.php
 app/Repositories/Criteria/CriteriaInterface.php
 app/Services/BaseService.php
 app/Services/Contracts/BaseServiceInterface.php
 app/Helpers/ApiResponseHelper.php
-config/module-generator.php
 ```
 
-To publish the generator stubs for customization:
+## Optional: publish generator stubs
 
 ```bash
 php artisan vendor:publish --tag=module-generator-stubs
 ```
 
-See [Publishing & custom stubs](/en/getting-started/publishing) before modifying the templates.
+Customizable module templates are copied to:
+
+```text
+resources/stubs/module-generator/
+```
+
+## Verify the installation
+
+```bash
+php artisan list | grep -E 'make:module|swagger:'
+```
+
+You should see `make:module`, `swagger:init`, `swagger:generate`, `swagger:ui` and `swagger:config`. The legacy `make:swagger` command is also registered for compatibility.
+
+Next: [Quick start](/en/getting-started/quick-start).

@@ -5,27 +5,58 @@ lang: en
 
 # Inline field syntax
 
-The parser accepts comma-separated definitions:
+Use `--fields` to describe a schema without depending on a live database or migration discovery.
+
+```bash
+php artisan make:module Product \
+  --fields="name:string:unique,price:decimal(10,2),is_active:boolean"
+```
+
+## Grammar
 
 ```text
 name:type[:modifier[:modifier...]]
 ```
 
-Example:
+Definitions are comma-separated. The parser tracks parentheses, so the comma inside `decimal(10,2)` does not split the field.
 
-```bash
-php artisan make:module Product --api \
-  --fields="name:string:unique,description:text:nullable,price:decimal(10,2),is_active:boolean,user_id:integer:fk=users.id"
-```
-
-Modifiers may be separated with `:`, `|` or whitespace. Common examples:
+Modifiers may be separated with colons, pipes or whitespace.
 
 ```text
-name:string:unique
-bio:text:nullable
-email:email|required|unique
-user_id:integer:fk=users.id
-category_id:integer:foreign(categories.id)
+email:email:unique
+website:url|nullable
+user_id:integer fk=users.id
 ```
 
-The parser respects parentheses while splitting fields, so decimal precision does not break the comma-separated list.
+## Nullable aliases
+
+```text
+nullable
+null
+optional
+```
+
+## Required aliases
+
+```text
+required
+notnull
+not-null
+```
+
+## Unique aliases
+
+```text
+unique
+uniq
+```
+
+## Foreign references
+
+```text
+fk=users.id
+foreign=users.id
+references=users.id
+```
+
+The normalized result contains field name, canonical type, nullable/unique flags and optional foreign table/column metadata.

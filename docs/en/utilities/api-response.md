@@ -5,16 +5,61 @@ lang: en
 
 # API response helper
 
-`ApiResponseHelper` is part of the `module-generator` publish group:
+The `module-generator` publish tag includes `App\Helpers\ApiResponseHelper` as an application-owned starting point for consistent JSON responses.
 
 ```bash
 php artisan vendor:publish --tag=module-generator
 ```
 
-It is copied to:
+## Success and error responses
 
-```text
-app/Helpers/ApiResponseHelper.php
+```php
+return ApiResponseHelper::successResponse(
+    data: $product,
+    message: 'created',
+    code: 201,
+);
 ```
 
-The helper provides a starting convention for consistent JSON success/error responses. Because the file is published into your application, you can adapt its envelope, message conventions and status-code handling to your API contract without modifying the vendor package.
+Output shape:
+
+```json
+{
+  "success": true,
+  "message": "created",
+  "data": {}
+}
+```
+
+Errors:
+
+```php
+return ApiResponseHelper::errorResponse('invalid request', 422, $errors);
+return ApiResponseHelper::unauthorized();
+return ApiResponseHelper::forbidden();
+return ApiResponseHelper::notFound();
+```
+
+## Date normalization
+
+```php
+ApiResponseHelper::formatDates($model->created_at);
+```
+
+Returns Gregorian date/time, Jalali `fa_date` and ISO-8601 values. It accepts Carbon, DateTime, Goli, timestamp/string values and returns `null` when parsing cannot be completed.
+
+## Boolean status
+
+```php
+ApiResponseHelper::getStatus(true);
+```
+
+returns `name`, Persian `fa_name` and numeric `code`.
+
+## Bundled cabin example
+
+The current published helper also contains `getCabinType()` with Y/W/C/F airline cabin mappings. Treat this as a domain example: remove or replace it if your application is unrelated to travel.
+
+::: tip
+Because this helper is published into your application, customizing its response contract does not modify vendor code.
+:::
