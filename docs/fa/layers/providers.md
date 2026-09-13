@@ -5,24 +5,28 @@ lang: fa
 
 # Provider و Binding
 
-Provider Generator فایل زیر را می‌سازد:
+برای هر ماژول می‌تواند یک Service Provider اختصاصی ساخته شود:
 
 ```text
 app/Providers/ProductServiceProvider.php
 ```
 
-و Bindingهای Repository/Service Contract به Concrete را ثبت می‌کند.
+کار اصلی این Provider ثبت Binding بین Contract و پیاده‌سازی واقعی Repository/Service است.
 
-## Registration نسخه-aware
+## ثبت Provider در نسخه‌های مختلف Laravel
 
-اگر `bootstrap/providers.php` وجود داشته باشد، Provider به Array بازگشتی همان فایل اضافه می‌شود. در Layout قدیمی‌تر، Generator `config/app.php` را بررسی می‌کند.
+Generator اول دنبال `bootstrap/providers.php` می‌گردد. اگر این فایل وجود داشته باشد، Provider را به Array همان فایل اضافه می‌کند.
 
-قبل از Insert، FQCN را جست‌وجو می‌کند تا Registration Duplicate نشود.
+در Layoutهای قدیمی‌تر Laravel، `config/app.php` بررسی می‌شود.
 
-## حذف Provider
+قبل از اضافه‌کردن هم FQCN جست‌وجو می‌شود تا Provider دوبار Register نشود.
+
+## اگر Provider نمی‌خواهی
 
 ```bash
 php artisan make:module Product --no-provider
 ```
 
-در این حالت Binding خودکار مسئولیت خود پروژه است و Service Generator به Concrete Repository تغییر می‌کند.
+در این حالت Binding خودکار ساخته نمی‌شود. Service Generator هم به‌جای Interface Repository از Concrete Repository استفاده می‌کند تا Dependency حل‌نشده باقی نماند.
+
+اگر Contractها را نگه می‌داری و خودت می‌خواهی Binding را جای دیگری انجام بدهی، مسئولیت Registration با پروژه است.

@@ -5,27 +5,29 @@ lang: fa
 
 # API Resourceها
 
-Resource Generator فایل زیر را می‌سازد:
+اگر Resource فعال باشد، Scaffolder برای ماژول فایل زیر را می‌سازد:
 
 ```text
 app/Http/Resources/ProductResource.php
 ```
 
-خروجی از Fillable/Schema، Cast و Relationها ساخته می‌شود.
+فیلدهای خروجی از Schema/Fillable، Castها و Relationهای Model ساخته می‌شوند.
 
-## Format فیلدها
+## Date و Boolean فقط خام برنمی‌گردند
+
+Generator برای بعضی فیلدها از `ApiResponseHelper` استفاده می‌کند:
 
 ```text
 date/datetime یا *_at -> ApiResponseHelper::formatDates(...)
 boolean یا is_*/has_* -> ApiResponseHelper::getStatus(...)
 ```
 
-بقیه Fieldها مستقیم برگردانده می‌شوند و `id` هم به خروجی اضافه می‌شود.
+بقیه‌ی فیلدها مستقیم برگردانده می‌شوند و `id` هم در خروجی قرار می‌گیرد.
 
-## Relation
+## Relationها
 
-Relationهای Migration/Runtime با `whenLoaded()` خروجی می‌شوند. Relationهای Collection مانند hasMany از Related Resource Collection استفاده می‌کنند، اگر Resource مربوطه وجود داشته باشد؛ Relation تکی از Resource Instance استفاده می‌کند.
+Relationهایی که از Migration یا Runtime تشخیص داده شده‌اند با `whenLoaded()` وارد Resource می‌شوند. یعنی صرف تعریف Relation در Resource باعث Query جدید نمی‌شود.
 
-در نبود Related Resource، Relation Load‌شده مستقیم برمی‌گردد.
+برای Relationهای Collection مثل `hasMany`، اگر Resource مدل مقصد وجود داشته باشد از `Resource::collection(...)` استفاده می‌شود. برای Relation تکی هم Resource Instance ساخته می‌شود.
 
-این رفتار مانع Query ناخواسته صرفاً به دلیل تعریف Relation در Resource می‌شود.
+اگر Resource مربوط به مدل مقصد وجود نداشته باشد، Relation لودشده مستقیم برگردانده می‌شود.

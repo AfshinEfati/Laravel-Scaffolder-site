@@ -5,19 +5,27 @@ lang: fa
 
 # DTOها
 
-در صورت فعال بودن:
+وقتی DTO فعال باشد، برای هر ماژول یک کلاس مثل این ساخته می‌شود:
 
 ```text
 app/DTOs/ProductDTO.php
 ```
 
-ساخته می‌شود. Propertyها از Schema یا Fillable مدل استخراج می‌شوند.
+فیلدهای DTO از Schema صریح، Migration یا Fillable/Castهای Model استخراج می‌شوند.
 
-DTO تولیدشده Constructor Property، Factory به نام `fromRequest(...)` و `toArray()` دارد. مقدارهای `null` در `toArray()` حذف می‌شوند تا Partial Update قابل استفاده باشد.
+## داخل DTO چه داریم؟
 
-## Type Inference
+DTO تولیدشده معمولاً سه بخش اصلی دارد:
 
-نمونه Mappingها:
+- Constructor با Propertyهای Typed؛
+- `fromRequest(...)` برای ساخت DTO از Request؛
+- `toArray()` برای تحویل Payload تمیز به Service/Repository.
+
+`toArray()` مقدارهای `null` را حذف می‌کند؛ در نتیجه برای Partial Update لازم نیست فیلدی که ارسال نشده با `null` روی رکورد نوشته شود.
+
+## Type inference
+
+Scaffolder تا جایی که Metadata اجازه بدهد Type مناسب PHP را حدس می‌زند:
 
 ```text
 string/text      -> ?string
@@ -29,10 +37,12 @@ json/array       -> array|string|null
 uuid/email/url   -> ?string
 ```
 
-وقتی Metadata کامل نباشد، Generator از نام‌هایی مثل `_id`، `email`، `price`، `amount`، `is_`، `_at` و `data` هم Heuristic می‌گیرد.
+اگر Metadata کامل نباشد، نام فیلد هم کمک می‌کند؛ مثلاً `_id`، `email`، `price`، `amount`، `is_`، `_at` و `data` برای تشخیص Type استفاده می‌شوند.
+
+اگر اصلاً DTO نمی‌خواهی:
 
 ```bash
 php artisan make:module Product --no-dto
 ```
 
-Service/Action/Controller را به حالت Array-based می‌برد.
+در این حالت Service، Action و Controller هم متناسب با Payload آرایه‌ای تولید می‌شوند؛ یعنی فقط یک فایل از خروجی حذف نمی‌شود.

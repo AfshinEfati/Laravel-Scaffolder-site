@@ -5,24 +5,28 @@ lang: fa
 
 # Feature Testها
 
-Test Generator یک CRUD Feature Test می‌سازد:
+Test Generator برای هر ماژول یک CRUD Feature Test می‌سازد:
 
 ```text
 tests/Feature/ProductCrudTest.php
 ```
 
-نام Class نیز `ProductCrudTest` است.
+نام Class هم `ProductCrudTest` است.
 
-Field Metadata برای Boolean، Integer/FK، Numeric، JSON، Date و UUID Normalize و داخل Test Scaffold استفاده می‌شود تا Payloadها متناسب با Schema باشند.
+## Payload تست از روی حدس خالی ساخته نمی‌شود
 
-Controller Subfolder هم در Namespace تست لحاظ می‌شود.
+Scaffolder Field Metadata را برای نوع‌هایی مثل Boolean، Integer/FK، Numeric، JSON، Date و UUID Normalize می‌کند و از آن برای ساخت Payloadهای اولیه‌ی تست استفاده می‌کند.
+
+اگر Controller داخل Subfolder باشد، Test Generator همان ساختار را در نظر می‌گیرد تا Route/Controller مورد تست درست Resolve شود.
+
+برای اجرای تست:
 
 ```bash
 php artisan test --filter=ProductCrudTest
 ```
 
-مسیر Root از `tests.feature` در Config می‌آید.
+Root مسیر تست‌ها از `tests.feature` در Config می‌آید.
 
-::: warning
-Test تولیدی نقطه شروع است؛ Authorization، Validation Failure، Domain Invariant و Integration Caseهای پروژه را خودتان اضافه کنید.
+::: warning نقطه شروع، نه پوشش کامل
+Test تولیدشده قرار نیست تمام رفتار Business را پوشش بدهد. سناریوهای Authorization، Validation Failure، Domain Ruleها و Integrationهای واقعی پروژه را خودت به آن اضافه کن.
 :::

@@ -5,24 +5,28 @@ lang: fa
 
 # Repositoryها
 
-هر اجرای عادی `make:module` یک Contract و یک Eloquent Repository تولید می‌کند:
+Repository یکی از دو لایه‌ای است که در اجرای عادی `make:module` همیشه ساخته می‌شود.
+
+برای `Product` این دو فایل را می‌گیری:
 
 ```text
 app/Repositories/Contracts/ProductRepositoryInterface.php
 app/Repositories/Eloquent/ProductRepository.php
 ```
 
-Contract از `BaseRepositoryInterface` و Concrete از `BaseRepository` استفاده می‌کند.
+Contract از `BaseRepositoryInterface` ارث می‌برد و پیاده‌سازی Eloquent هم روی `BaseRepository` ساخته می‌شود.
 
-## BaseRepository
+## چه کاری قرار است اینجا انجام شود؟
 
-بعد از Publish:
+Query و کار مستقیم با Persistence بهتر است داخل Repository بماند. Service و Controller لازم نیست بدانند داده دقیقاً چطور از Eloquent گرفته یا ذخیره می‌شود.
+
+بعد از Publish کردن فایل‌های پایه:
 
 ```bash
 php artisan vendor:publish --tag=module-generator
 ```
 
-BaseRepository وارد خود Application می‌شود و متدهایی مثل این‌ها دارد:
+`BaseRepository` داخل خود پروژه‌ات قرار می‌گیرد و متدهای عمومی‌ای مثل این‌ها را در اختیار Repositoryهای ماژول‌ها می‌گذارد:
 
 ```text
 getAll()
@@ -37,6 +41,14 @@ popCriteria(...)
 skipCriteria(...)
 ```
 
-`findDynamic` و `getByDynamic` شرط‌های Where، Eager Load، In/NotIn، Between، Null، OR Variantها و Raw Condition را پشتیبانی می‌کنند.
+## Dynamic Query
 
-Criteriaهای فعال قبل از Readها روی Builder اعمال می‌شوند.
+`findDynamic()` و `getByDynamic()` فقط یک `where` ساده نیستند. می‌توانند Eager Load، `whereIn`، `whereNotIn`، `between`، `null`، حالت‌های `or*` و Raw Conditionها را هم بگیرند.
+
+این یعنی برای Queryهای رایج لازم نیست در هر Repository دوباره همان Boilerplate را بنویسی.
+
+## Criteria
+
+Criteriaهایی که روی Repository Push کرده‌ای قبل از Readها روی Builder اعمال می‌شوند. اگر در یک Query خاص نمی‌خواهی Criteria اجرا شود، `skipCriteria()` برای همین است.
+
+برای جزئیات بیشتر، بخش [Criteria Pattern](/fa/utilities/criteria) را ببین.

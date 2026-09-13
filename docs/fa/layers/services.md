@@ -5,16 +5,16 @@ lang: fa
 
 # Serviceها
 
-هر ماژول عادی Service Contract و Concrete Service دارد:
+کنار هر Repository یک Service و Contract آن هم ساخته می‌شود:
 
 ```text
 app/Services/Contracts/ProductServiceInterface.php
 app/Services/ProductService.php
 ```
 
-Concrete از `BaseService` Publish‌شده Extend می‌کند.
+`ProductService` از `BaseService` استفاده می‌کند و قرار است منطق Application بالای Repository اینجا جمع شود.
 
-## عملیات پایه
+## متدهای پایه
 
 ```text
 index()
@@ -27,16 +27,18 @@ getByDynamic(...)
 repository()
 ```
 
-BaseService Persistence را به Repository Delegates می‌کند.
+Service خودش Query دیتابیس نمی‌زند؛ کار Persistence را به Repository می‌سپارد. اگر بعداً منطق‌هایی مثل محاسبه، هماهنگی چند Repository یا اجرای Ruleهای Application اضافه کنی، Service جای طبیعی آن‌هاست.
 
-## DTO
+## وقتی DTO فعال است
 
-در حالت DTO، Service `ProductDTO|array` را می‌پذیرد و DTO را با `toArray()` Normalize می‌کند.
+Service برای `store` و `update` می‌تواند `ProductDTO|array` بگیرد. اگر DTO دریافت کند، قبل از ارسال به Repository با `toArray()` آن را Normalize می‌کند.
 
 ```bash
 php artisan make:module Product --no-dto
 ```
 
-در حالت بدون DTO، Store/Update روی Array-based data تولید می‌شوند.
+با `--no-dto` کد تولیدشده از اول برای Payload آرایه‌ای ساخته می‌شود.
 
-در حالت معمول Service به `ProductRepositoryInterface` وابسته است؛ با `--no-provider` برای جلوگیری از وابستگی به Binding ثبت‌نشده، Concrete Repository استفاده می‌شود.
+## Interface یا Concrete Repository؟
+
+در حالت معمول Service به `ProductRepositoryInterface` وابسته است و Provider آن را Bind می‌کند. اگر `--no-provider` بدهی، Generator برای اینکه Dependency بدون Binding باقی نماند، Service را به Concrete Repository وصل می‌کند.

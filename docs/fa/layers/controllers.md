@@ -5,35 +5,38 @@ lang: fa
 
 # Controllerها
 
-Controller Generator براساس API/Web Mode و لایه‌های فعال، کد متفاوت تولید می‌کند.
+Controller Generator براساس API/Web Mode و لایه‌هایی که فعال کرده‌ای خروجی متفاوتی می‌سازد.
 
-API پیش‌فرض:
+مسیر پیش‌فرض API:
 
 ```text
 app/Http/Controllers/Api/V1/ProductController.php
 ```
 
-Web پیش‌فرض:
+مسیر پیش‌فرض Web:
 
 ```text
 app/Http/Controllers/ProductController.php
 ```
 
-`--controller=Admin` یک Subfolder به Root مربوطه اضافه می‌کند.
+با `--controller=Admin` فقط یک Subfolder به همین Root اضافه می‌شود.
 
-## API Controller
+## API Controller چه چیزهایی را به هم وصل می‌کند؟
 
-Generator با توجه به Optionها این بخش‌ها را Wiring می‌کند:
+بسته به Optionها، Controller می‌تواند از این بخش‌ها استفاده کند:
 
-- Model و Service یا Actionها؛
+- Model؛
+- Service یا Actionها؛
 - Store/Update Form Request؛
 - DTO؛
 - API Resource؛
 - `ApiResponseHelper`؛
 - Relation Loading؛
-- `controller_middleware`؛
-- Swagger ماژول.
+- Middlewareهای تنظیم‌شده؛
+- و Swagger Doc ماژول.
 
-اگر Request خاموش باشد `Illuminate\Http\Request` استفاده می‌شود؛ اگر DTO خاموش باشد Array ارسال می‌شود؛ اگر Resource خاموش باشد Response Helper مستقیماً Data را برمی‌گرداند.
+Generator خروجی را با انتخاب‌هایت هماهنگ می‌کند. اگر DTO خاموش باشد Array می‌فرستد؛ اگر Resource خاموش باشد داده مستقیم به Response Helper می‌رود؛ و اگر Actionها روشن باشند Controller به‌جای صدا زدن مستقیم Service، Operation مربوطه را اجرا می‌کند.
 
-با Action Mode، Controller به Operation Classها متکی می‌شود نه Service مستقیم برای هر CRUD.
+## Request خام
+
+در Flowهایی که Form Request فعال نیست، Controller از `Illuminate\Http\Request` استفاده می‌کند. در API Mode خود Scaffolder Requestها را فعال می‌کند.

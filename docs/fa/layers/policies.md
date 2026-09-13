@@ -5,17 +5,21 @@ lang: fa
 
 # Policyها
 
+برای ساخت Policy استاندارد Laravel:
+
 ```bash
 php artisan make:module Product --policy
 ```
 
-فایل زیر را می‌سازد:
+خروجی:
 
 ```text
 app/Policies/ProductPolicy.php
 ```
 
-Policy تولیدشده Skeleton Authorization است و Scaffolder نمی‌تواند Ownership، Role یا Rule کسب‌وکار پروژه را حدس بزند.
+Scaffolder فقط ساختار اولیه‌ی Policy را می‌سازد. اینکه چه کسی اجازه‌ی View، Update یا Delete دارد به Ruleهای واقعی پروژه‌ی تو بستگی دارد و قابل حدس‌زدن نیست.
+
+مثلاً می‌توانی Rule مالکیت را این‌طور پیاده کنی:
 
 ```php
 public function update(User $user, Product $product): bool
@@ -24,4 +28,4 @@ public function update(User $user, Product $product): bool
 }
 ```
 
-بعد از Generation Ruleهای Placeholder را با منطق واقعی جایگزین کنید.
+پس بعد از Generate شدن Policy، متدها را با منطق Authorization واقعی پروژه کامل کن.
