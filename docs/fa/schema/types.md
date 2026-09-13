@@ -5,13 +5,13 @@ lang: fa
 
 # نوع‌های پشتیبانی‌شده
 
-`SchemaParser` Aliasهای دیتابیسی را به Typeهای Canonical تبدیل می‌کند:
+اسم Typeها در Migrationها و دیتابیس‌ها همیشه یکسان نیست. `SchemaParser` آن‌ها را Normalize می‌کند تا بقیه‌ی Generatorها با یک مجموعه Type ثابت کار کنند.
 
 | ورودی | Type نهایی |
 | --- | --- |
 | `char`, `varchar`, `string` | `string` |
 | `text`, `mediumText`, `longText` | `text` |
-| `int`, `bigInteger`, `foreignId`, increments | `integer` |
+| `int`, `integer`, `bigInteger`, `foreignId`, increments | `integer` |
 | `decimal`, `double`, `float`, `numeric` | `numeric` |
 | `bool`, `boolean` | `boolean` |
 | `date` | `date` |
@@ -22,9 +22,29 @@ lang: fa
 | `email` | `email` |
 | `url` | `url` |
 
+مثلاً این تعریف:
+
 ```bash
 php artisan make:module Invoice \
   --fields="reference:uuid,total:decimal(12,2),meta:jsonb:nullable"
 ```
 
-Generatorها از Type نرمال‌شده برای PHP Type، Validation، Sample Data و OpenAPI Metadata استفاده می‌کنند.
+بعد از Normalize شدن تقریباً این معنا را دارد:
+
+```text
+reference -> uuid
+total     -> numeric
+meta      -> json + nullable
+```
+
+## چرا Normalize شدن مهم است؟
+
+همان Type نهایی در چند جا مصرف می‌شود:
+
+- PHP Type داخل DTO؛
+- Ruleهای Validation؛
+- Payload نمونه در Feature Test؛
+- Cast/Format بعضی Resourceها؛
+- Metadata مربوط به OpenAPI.
+
+پس اگر Type دیتابیس Alias متفاوتی داشته باشد، لازم نیست هر Generator جداگانه آن را بشناسد.

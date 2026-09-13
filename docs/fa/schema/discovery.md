@@ -1,36 +1,46 @@
 ---
-title: روش کشف فیلدها
+title: Scaffolder فیلدها را از کجا می‌خواند؟
 lang: fa
 ---
 
-# روش کشف Schema
+# Scaffolder فیلدها را از کجا می‌خواند؟
 
-Metadata فیلدها برای DTO، Validation، Resource، Relation، Feature Test و Swagger استفاده می‌شود.
+Schema فقط برای ساخت Model نیست. Scaffolder از Metadata فیلدها برای DTO، Validation، Resource، Relation، Feature Test و Swagger استفاده می‌کند؛ پس مهم است بدانی این اطلاعات دقیقاً از کجا می‌آیند.
 
-## ترتیب منابع
+## اولویت اول: `--fields`
 
-### ۱. `--fields` صریح
-
-اگر Inline Schema معتبر وجود داشته باشد، همان منبع حقیقت در نظر گرفته می‌شود:
+اگر Schema را مستقیم به Command بدهی، همان منبع اصلی در نظر گرفته می‌شود:
 
 ```bash
-php artisan make:module Product --fields="name:string,price:numeric"
+php artisan make:module Product \
+  --fields="name:string,price:numeric,is_active:boolean"
 ```
 
-Runtime/Migration روی آن Merge نمی‌شوند.
+وقتی `--fields` معتبر باشد، Scaffolder اطلاعات Runtime یا Migration را روی آن Merge نمی‌کند. این حالت برای وقتی خوب است که می‌خواهی خروجی دقیقاً براساس تعریف خودت ساخته شود.
 
-### ۲. Runtime Model/Database
+## اولویت بعدی: Model و دیتابیس
 
-اگر Eloquent Model معتبر وجود داشته باشد، `RuntimeFieldParser` Table و Fieldها را بررسی می‌کند و Fillable مدل هم برای هماهنگ کردن Metadata استفاده می‌شود.
+اگر Model وجود داشته باشد، Runtime inspection می‌تواند Table، Columnها، Castها و Fillableهای مدل را بررسی کند.
 
-### ۳. Migration
+این اطلاعات کمک می‌کنند Generator بفهمد مثلاً یک فیلد Boolean است، یک فیلد Date است یا چه فیلدهایی باید وارد DTO و Resource شوند.
 
-در نبود Inline Schema، Metadata مایگریشن با Runtime Metadata Merge می‌شود. می‌توانید با `--from-migration` فایل مشخص بدهید یا اجازه دهید Fallback خودکار انجام شود.
+## Migration هم خوانده می‌شود
 
-## Relationها
+وقتی `--fields` نداده باشی، اطلاعات Migration هم می‌تواند وارد Metadata شود. اگر Migration خاصی مدنظرت است، مستقیم مشخصش کن:
 
-Metadata Relationهای Runtime و Migration نیز Merge می‌شوند و Foreign Keyها می‌توانند Relation Hint ایجاد کنند.
+```bash
+php artisan make:module Product \
+  --from-migration=database/migrations/2026_09_01_000000_create_products_table.php
+```
 
-## Fail زودهنگام
+در حالت عادی، Runtime و Migration می‌توانند مکمل هم باشند؛ مثلاً Migration اطلاعات Foreign Key را بدهد و Model اطلاعات Cast را.
 
-Build عادی بدون Model، بدون `--fields` و بدون Migration Hint صریح Fail می‌شود تا Generator Schema خیالی تولید نکند. Swagger-only از این قاعده مستثناست.
+## Relationها هم بخشی از همین Metadata هستند
+
+Foreign Keyها و Relationهایی که از Runtime یا Migration پیدا می‌شوند برای Resource، Swagger و بعضی Generatorهای دیگر استفاده می‌شوند.
+
+## اگر هیچ منبعی وجود نداشته باشد چه؟
+
+برای Build عادی، اگر Model وجود نداشته باشد و نه `--fields` بدهی و نه Migration مشخص کنی، Command متوقف می‌شود. Scaffolder عمداً Schema خیالی تولید نمی‌کند.
+
+حالت Swagger-only از این Flow جداست و برای Refresh کردن Doc ماژول می‌تواند بدون ساخت دوباره‌ی Stack اجرا شود.
