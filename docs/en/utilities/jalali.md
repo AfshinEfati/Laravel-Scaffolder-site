@@ -18,6 +18,15 @@ $date = goli_date('2026-09-13 12:00:00');
 
 Both return `Efati\ModuleGenerator\Support\Goli`.
 
+The service provider also binds `goli` into Laravel's container, so explicit container resolution is possible:
+
+```php
+$date = app('goli', [
+    'datetime' => '2026-09-13 12:00:00',
+    'timezone' => 'Asia/Tehran',
+]);
+```
+
 ## Create and parse
 
 ```php
@@ -56,7 +65,7 @@ Unknown method calls are forwarded to the underlying Carbon instance; Carbon res
 
 ```php
 $date->diffForHumans();
-$date->diffForHumans(null, true); // Persian digits
+$date->diffForHumans(null, true);
 ```
 
 ## Eloquent cast
@@ -76,8 +85,6 @@ Reading the attribute returns a Goli instance. Writing accepts a Goli-compatible
 
 ## `HasGoliDates`
 
-For several attributes:
-
 ```php
 use Efati\ModuleGenerator\Support\HasGoliDates;
 
@@ -92,7 +99,7 @@ class Article extends Model
 }
 ```
 
-The trait registers `GoliDateCast` for every configured field during model initialization. You can also add casts at runtime:
+The trait registers `GoliDateCast` for each configured field during model initialization. You can add casts at runtime too:
 
 ```php
 $article->addGoliDateCast('reviewed_at');

@@ -16,6 +16,15 @@ $date = goli_date('2026-09-13 12:00:00');
 
 هر دو `Efati\ModuleGenerator\Support\Goli` برمی‌گردانند.
 
+Service Provider همچنین `goli` را در Container ثبت می‌کند:
+
+```php
+$date = app('goli', [
+    'datetime' => '2026-09-13 12:00:00',
+    'timezone' => 'Asia/Tehran',
+]);
+```
+
 ## ساخت و Parse
 
 ```php
@@ -27,7 +36,7 @@ $jalali = Goli::parseGoli('1405-06-22 12:00:00');
 $created = Goli::create(1405, 6, 22, 12, 0, 0);
 ```
 
-`parseGoli` ارقام فارسی/عربی را نیز Normalize می‌کند.
+`parseGoli` ارقام فارسی/عربی را Normalize می‌کند.
 
 ## Format
 
@@ -35,7 +44,7 @@ $created = Goli::create(1405, 6, 22, 12, 0, 0);
 $date->toGoliDateString();
 $date->toGoliDateTimeString();
 $date->format('Y/m/d');
-$date->format('Y/m/d', true); // ارقام فارسی
+$date->format('Y/m/d', true);
 $date->formatGregorian('Y-m-d H:i:s');
 ```
 
@@ -48,7 +57,7 @@ $date->timezone('UTC');
 $date->diffForHumans(null, true);
 ```
 
-Methodهای ناشناخته به Carbon داخلی Forward می‌شوند و اگر نتیجه Carbon باشد دوباره داخل Goli Wrap می‌شود.
+Methodهای ناشناخته به Carbon داخلی Forward می‌شوند و Resultهای Carbon دوباره داخل Goli Wrap می‌شوند.
 
 ## Eloquent Cast
 
