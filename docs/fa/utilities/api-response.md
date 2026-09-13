@@ -5,13 +5,21 @@ lang: fa
 
 # API Response Helper
 
-Publish Tag اصلی `App\Helpers\ApiResponseHelper` را به‌عنوان نقطه شروع Response Contract وارد پروژه می‌کند:
+وقتی Tag اصلی پکیج را Publish می‌کنی، یک `ApiResponseHelper` هم داخل Application قرار می‌گیرد:
 
 ```bash
 php artisan vendor:publish --tag=module-generator
 ```
 
-## Response موفق و خطا
+مسیر پیش‌فرض:
+
+```text
+app/Helpers/ApiResponseHelper.php
+```
+
+هدفش این است که یک نقطه شروع برای شکل Responseهای API داشته باشی. چون فایل داخل `app/` است، بعد از Publish کاملاً متعلق به پروژه‌ی توست.
+
+## Response موفق
 
 ```php
 return ApiResponseHelper::successResponse(
@@ -21,6 +29,18 @@ return ApiResponseHelper::successResponse(
 );
 ```
 
+ساختار خروجی:
+
+```json
+{
+  "success": true,
+  "message": "created",
+  "data": {}
+}
+```
+
+## Response خطا
+
 ```php
 return ApiResponseHelper::errorResponse('invalid request', 422, $errors);
 return ApiResponseHelper::unauthorized();
@@ -28,24 +48,24 @@ return ApiResponseHelper::forbidden();
 return ApiResponseHelper::notFound();
 ```
 
-## Date
+## Format کردن Date
 
 ```php
 ApiResponseHelper::formatDates($model->created_at);
 ```
 
-Gregorian Date/Time، `fa_date` جلالی و ISO را برمی‌گرداند و Carbon، DateTime، Goli، Timestamp و String را می‌پذیرد.
+این متد Carbon، `DateTimeInterface`، Goli، Timestamp و String را قبول می‌کند و خروجی استانداردی شامل Date، Time، `fa_date` و ISO می‌دهد.
 
-## Boolean Status
+## تبدیل Boolean به Status قابل نمایش
 
 ```php
 ApiResponseHelper::getStatus(true);
 ```
 
-خروجی `name`، `fa_name` و `code` دارد.
+خروجی دارای `name`، `fa_name` و `code` است. Resource Generator برای فیلدهای Boolean هم می‌تواند از همین Helper استفاده کند.
 
-## مثال Cabin
+## `getCabinType()` چرا اینجاست؟
 
-نسخه فعلی Helper یک `getCabinType()` با Mapping کدهای Y/W/C/F هم دارد. این قسمت یک Domain Example سفر/پرواز است؛ اگر پروژه شما چنین دامنه‌ای ندارد آن را حذف یا جایگزین کنید.
+نسخه فعلی Helper یک Mapping نمونه برای کدهای Cabin پرواز (`Y/W/C/F`) دارد. این بخش یک **Domain Example** است، نه چیزی که همه‌ی پروژه‌ها باید نگه دارند.
 
-چون Helper داخل Application Publish می‌شود، تغییر آن Vendor Code را دستکاری نمی‌کند.
+اگر پروژه‌ات هیچ ربطی به پرواز ندارد، خیلی ساده حذفش کن یا با Helperهای Domain خودت جایگزینش کن. چون این فایل داخل Application Publish شده، برای این تغییر لازم نیست Vendor Code را دست بزنی.

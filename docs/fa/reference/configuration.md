@@ -1,24 +1,34 @@
 ---
-title: مرجع پیکربندی
+title: مرجع تنظیمات
 lang: fa
 ---
 
-# مرجع پیکربندی
+# مرجع تنظیمات
 
-Config کامل در `config/module-generator.php` Publish می‌شود.
+فایل کامل Config با این دستور وارد پروژه می‌شود:
 
-## کلیدهای Root
+```bash
+php artisan vendor:publish --tag=module-generator
+```
+
+مسیر:
+
+```text
+config/module-generator.php
+```
+
+## کلیدهای اصلی
 
 | کلید | کاربرد |
 | --- | --- |
-| `base_namespace` | Root Namespace کلاس‌های Application |
-| `paths` | مسیر لایه‌های تولیدشده |
-| `tests.feature` | مسیر Feature Test |
-| `defaults` | Defaultهای `make:module` |
-| `swagger` | UI، Spec، Server و Security |
-| `logging_channel` | Channel لاگ Infrastructure |
+| `base_namespace` | Namespace پایه‌ی کلاس‌های Application |
+| `paths` | محل ساخت هر لایه |
+| `tests.feature` | Root مربوط به Feature Testها |
+| `defaults` | رفتار پیش‌فرض `make:module` |
+| `swagger` | تنظیمات UI، Spec، Server و Security |
+| `logging_channel` | Channel لاگ برای Infrastructure تولیدشده |
 
-## Pathها
+## Pathهای قابل تغییر
 
 ```text
 paths.repository.eloquent
@@ -35,7 +45,7 @@ paths.actions
 paths.docs
 ```
 
-## Defaultها
+## Defaultهای `make:module`
 
 ```text
 defaults.with_controller
@@ -49,7 +59,7 @@ defaults.controller_middleware
 defaults.controller_type
 ```
 
-`controller_type` پیش‌فرض `api` است.
+`controller_type` در Config پیش‌فرض روی `api` است.
 
 ## Swagger
 
@@ -64,4 +74,8 @@ swagger.spec.*
 swagger.security.*
 ```
 
-CLI Optionها روی Config اعمال می‌شوند و بعضی از آنها رفتار ضمنی دارند؛ API Mode نمونه واضح آن است.
+برای جزئیات Theme و Security از بخش [Swagger](/fa/swagger/) استفاده کن.
+
+::: info
+Optionهای CLI روی Config اعمال می‌شوند و بعضی Optionها اثر ضمنی هم دارند؛ مثلاً API Mode فقط نوع Controller را تغییر نمی‌دهد و Request/Action را هم فعال می‌کند.
+:::

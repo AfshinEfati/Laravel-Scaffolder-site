@@ -5,41 +5,67 @@ lang: fa
 
 # رفع اشکال
 
-## Model پیدا نمی‌شود
+چند مشکلی که موقع استفاده از Scaffolder بیشتر احتمال دارد ببینی:
 
-Build عادی به Model یا Schema صریح نیاز دارد:
+## می‌گوید Model پیدا نشد
 
-```bash
-php artisan make:module Product --fields="name:string,price:numeric"
-```
-
-یا:
+برای Build عادی باید حداقل یک منبع Schema داشته باشی. اگر Model هنوز وجود ندارد، `--fields` بده:
 
 ```bash
-php artisan make:module Product --from-migration=database/migrations/...php
+php artisan make:module Product \
+  --fields="name:string,price:numeric"
 ```
 
-## Fieldها تشخیص داده نمی‌شوند
+یا Migration را مشخص کن:
 
-اگر Runtime DB قابل دسترس نیست، `--fields` یا `--from-migration` بدهید و Table/Fillable مدل را بررسی کنید.
+```bash
+php artisan make:module Product \
+  --from-migration=database/migrations/...php
+```
 
-## فایل Skip شد
+## فیلدها درست تشخیص داده نمی‌شوند
 
-فایل موجود به‌صورت پیش‌فرض overwrite نمی‌شود:
+اگر Runtime DB در دسترس نیست یا Model Metadata کافی ندارد، به‌جای تکیه روی Auto-discovery از `--fields` یا `--from-migration` استفاده کن.
+
+اگر Model وجود دارد، Table، Fillable و Castهای آن را هم بررسی کن.
+
+## Generator می‌گوید فایل Skip شد
+
+این رفتار محافظتی است. Scaffolder بدون اجازه روی فایل موجود نمی‌نویسد.
+
+اگر واقعاً می‌خواهی بازنویسی شود:
 
 ```bash
 php artisan make:module Product --force
 ```
 
-## API ناخواسته Request/Action ساخت
+قبلش Git status یا Diff را ببین؛ `--force` Merge نمی‌کند.
 
-رفتار فعلی درست است؛ API Mode این دو بخش را Auto-enable می‌کند. برای Action از `--no-actions` استفاده کنید. `--no-requests` فعلاً وجود ندارد.
+## چرا `--api` خودش Request و Action ساخت؟
 
-## `--all --no-actions` هنوز Action می‌سازد
+این رفتار فعلی API Mode است. Requestها خودکار فعال می‌شوند و Actionها هم مگر اینکه صریحاً خاموششان کنی:
 
-Full Stack در انتها Action را دوباره روشن می‌کند. DTO استثناست و `--all --no-dto` همچنان DTO را خاموش نگه می‌دارد.
+```bash
+php artisan make:module Product --api --no-actions
+```
 
-## Swagger UI آماده نیست
+فعلاً `--no-requests` در Signature وجود ندارد.
+
+## چرا `--all --no-actions` باز هم Action ساخت؟
+
+چون `--all` / `--full` در انتهای Flow بیشتر Disableها را دوباره فعال می‌کند.
+
+استثنای مهم DTO است:
+
+```bash
+php artisan make:module Product --all --no-dto
+```
+
+در این حالت DTO واقعاً خاموش می‌ماند.
+
+## Swagger UI می‌گوید Initialize نشده
+
+ترتیب پایه را اجرا کن:
 
 ```bash
 php artisan swagger:init
@@ -47,10 +73,17 @@ php artisan swagger:generate
 php artisan swagger:ui
 ```
 
-## Host رد می‌شود
+## `swagger:ui` Host را قبول نمی‌کند
 
-Server فعلی `localhost`، IP معتبر و `::1` را می‌پذیرد.
+در نسخه فعلی Host باید `localhost`، `::1` یا یک IP معتبر باشد. اگر Domain دلخواه داده باشی Validation ردش می‌کند.
 
-## Custom Stub مشکل دارد
+## بعد از Publish کردن Stub خروجی خراب شده
 
-موقتاً Stub سفارشی را با نسخه Package مقایسه کنید، یک ماژول آزمایشی بسازید و تغییرات را مرحله‌ای برگردانید.
+Custom Stubها مستقل از Vendor هستند و با Upgrade خودکار Merge نمی‌شوند.
+
+برای پیدا کردن مشکل:
+
+1. Stub سفارشی را با نسخه فعلی پکیج مقایسه کن.
+2. یک ماژول آزمایشی بساز.
+3. تغییرها را مرحله‌ای برگردان.
+4. اول Namespace و Importها را بررسی کن؛ معمولاً خطاهای واضح از همان‌جا مشخص می‌شوند.

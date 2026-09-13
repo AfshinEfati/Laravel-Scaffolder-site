@@ -5,13 +5,15 @@ lang: fa
 
 # Criteria Pattern
 
-`BaseRepository` Publish‌شده یک مکانیزم سبک برای Query Constraintهای قابل استفاده مجدد دارد.
+اگر چند Query مختلف یک شرط مشترک دارند، لازم نیست آن شرط را داخل همه‌ی Repositoryها تکرار کنی. `BaseRepository` یک Criteria Pattern سبک برای همین کار دارد.
+
+اول فایل‌های پایه را Publish کن:
 
 ```bash
 php artisan vendor:publish --tag=module-generator
 ```
 
-یک Criteria:
+بعد یک Criteria بساز:
 
 ```php
 use App\Repositories\Criteria\CriteriaInterface;
@@ -26,7 +28,7 @@ final class ActiveProducts implements CriteriaInterface
 }
 ```
 
-استفاده:
+## استفاده روی Repository
 
 ```php
 $repository
@@ -34,16 +36,20 @@ $repository
     ->getAll();
 ```
 
-حذف:
+از این به بعد Criteria قبل از Query روی Builder اعمال می‌شود.
+
+## حذف Criteria
 
 ```php
 $repository->popCriteria(ActiveProducts::class);
 ```
 
-Bypass موقت:
+## رد کردن Criteria برای یک Flow خاص
 
 ```php
 $repository->skipCriteria()->getAll();
 ```
 
-Criteria روی `getAll`، `find`، `findDynamic` و `getByDynamic` اعمال می‌شود. هر Criteria یک Eloquent Builder می‌گیرد و Builder برمی‌گرداند.
+Criteria روی Readهای اصلی `BaseRepository` مثل `getAll()`، `find()`، `findDynamic()` و `getByDynamic()` اعمال می‌شود.
+
+هر Criteria یک Eloquent `Builder` می‌گیرد و باید Builder را برگرداند؛ بنابراین می‌توانی شرط، Join، Order یا هر Query Constraint قابل استفاده‌ی مجددی را آنجا قرار بدهی.

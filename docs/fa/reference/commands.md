@@ -5,6 +5,8 @@ lang: fa
 
 # فهرست دستورات
 
+اگر فقط دنبال Signature دستورها هستی، این صفحه مرجع سریع همه‌ی Commandهای Public پکیج است.
+
 ## `make:module`
 
 ```text
@@ -31,6 +33,8 @@ make:module {name}
   --force
 ```
 
+توضیح و precedence هر Option در بخش [گزینه‌های `make:module`](/fa/module/overview) آمده.
+
 ## Swagger جدید
 
 ```text
@@ -40,10 +44,10 @@ swagger:ui --port=8000 --host=localhost --refresh
 swagger:config --show --export-env --theme= --primary-color= --secondary-color= --title= --reset
 ```
 
-## Deprecated
+## Command قدیمی
 
 ```text
 make:swagger --path= --controller= -f|--force --output=
 ```
 
-برای پروژه جدید `swagger:generate` را ترجیح دهید.
+`make:swagger` Deprecated است. برای پروژه‌ی جدید Flow `swagger:generate` را ترجیح بده.

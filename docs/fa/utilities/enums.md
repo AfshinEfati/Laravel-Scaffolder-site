@@ -5,7 +5,9 @@ lang: fa
 
 # Enum Helper Trait
 
-`EnumHelperTrait` برای PHP Backed Enumها خروجی مناسب API و Lookup آماده می‌کند.
+اگر از PHP Backed Enum استفاده می‌کنی و مرتب باید آن‌ها را برای API به شکل `name` / `code` تبدیل کنی، `EnumHelperTrait` این Boilerplate را کم می‌کند.
+
+مثال:
 
 ```php
 use Efati\ModuleGenerator\Enums\Concerns\EnumHelperTrait;
@@ -21,7 +23,7 @@ enum OrderStatus: int
     {
         return match ($this) {
             self::Pending => 'در انتظار',
-            self::Paid => 'پرداخت شده',
+            self::Paid => 'پرداخت‌شده',
         };
     }
 }
@@ -33,7 +35,17 @@ enum OrderStatus: int
 OrderStatus::toList();
 ```
 
-هر Case را با `name`، `fa_name` و `code` برمی‌گرداند. اگر `faName()` تعریف نشده باشد `fa_name=null` است.
+برای هر Case چیزی شبیه این برمی‌گرداند:
+
+```php
+[
+    'name' => 'Pending',
+    'fa_name' => 'در انتظار',
+    'code' => 1,
+]
+```
+
+اگر `faName()` روی Enum نداشته باشی، `fa_name` برابر `null` است.
 
 ## `toMap()`
 
@@ -41,9 +53,9 @@ OrderStatus::toList();
 OrderStatus::toMap();
 ```
 
-همان Metadata را با Value Enum به‌عنوان Key می‌سازد.
+همان Metadata را برمی‌گرداند، ولی Value هر Enum به‌عنوان Key آرایه استفاده می‌شود. برای ساخت Lookup سریع یا Meta Endpointها کاربردی است.
 
-## Lookup
+## پیدا کردن یک Case
 
 ```php
 OrderStatus::findByValue(1);
@@ -51,4 +63,4 @@ OrderStatus::findByValue(OrderStatus::Paid);
 OrderStatus::findByName('Pending');
 ```
 
-برای مقدار نامعتبر `null` برمی‌گردد.
+`findByValue()` هم مقدار خام و هم خود `BackedEnum` را قبول می‌کند. اگر چیزی پیدا نشود، خروجی `null` است.
