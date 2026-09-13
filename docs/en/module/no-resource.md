@@ -1,14 +1,22 @@
 ---
-title: --no-resource
+title: --no-resource / -nr
 lang: en
 ---
 
-# `--no-resource`
+# `--no-resource` / `-nr`
 
-Disable API Resource generation:
+Skip Laravel API Resource generation.
 
 ```bash
 php artisan make:module Product --no-resource
 ```
 
-This is useful when controllers return domain DTOs, custom transformers or response objects instead of Laravel `JsonResource` classes.
+The controller generator is informed that no resource layer exists, so generated response handling is adjusted instead of referencing a missing `ProductResource`.
+
+Use this when your application already has a dedicated transformer/serializer layer or intentionally returns another response shape.
+
+```bash
+php artisan make:module Product --api --no-resource
+```
+
+`--all` / `--full` are applied later and re-enable API Resource generation.

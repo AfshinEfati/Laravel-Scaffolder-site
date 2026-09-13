@@ -5,31 +5,57 @@ lang: en
 
 # `swagger:config`
 
-Inspect or modify Swagger UI settings without manually editing config files.
+Inspect and manage common Swagger UI settings without manually editing the package config.
+
+```bash
+php artisan swagger:config
+```
+
+With no options, the command enters interactive mode.
+
+## Signature
+
+```text
+swagger:config
+  --show
+  --export-env
+  --theme=
+  --primary-color=
+  --secondary-color=
+  --title=
+  --reset
+```
+
+## Show current configuration
 
 ```bash
 php artisan swagger:config --show
 ```
 
-Export the current settings as environment syntax:
+Displays the current theme, colors, fonts, dark-mode settings and display options.
+
+## Update selected settings
+
+```bash
+php artisan swagger:config \
+  --theme=dark \
+  --primary-color=#8b5cf6 \
+  --secondary-color=#06b6d4 \
+  --title="Internal API"
+```
+
+## Export ENV values
 
 ```bash
 php artisan swagger:config --export-env
 ```
 
-Update common values:
+The command writes `.env.swagger`. Review it before copying values into your application's `.env`.
 
-```bash
-php artisan swagger:config --theme=dark
-php artisan swagger:config --primary-color="#8b5cf6"
-php artisan swagger:config --secondary-color="#d946ef"
-php artisan swagger:config --title="Partner API"
-```
-
-Reset supported settings to defaults:
+## Reset
 
 ```bash
 php artisan swagger:config --reset
 ```
 
-Running the command with no options opens an interactive theme/color flow and can reinitialize the UI immediately.
+Reset is interactive and asks for confirmation before writing default environment values.

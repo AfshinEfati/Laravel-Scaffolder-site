@@ -1,33 +1,58 @@
 ---
-title: Swagger themes
+title: Themes & appearance
 lang: en
 ---
 
-# Themes and appearance
+# Themes & appearance
 
-Three bundled UI themes are supported:
+Swagger UI appearance is configured under `module-generator.swagger`.
+
+## Themes
 
 ```env
 SWAGGER_THEME=vanilla
-# or tailwind
-# or dark
 ```
 
-After changing the theme, reinitialize the assets:
+Supported values:
+
+- `vanilla` — bundled dependency-free styling;
+- `tailwind` — the bundled Tailwind-oriented UI template;
+- `dark` — dark-mode template with configurable behavior.
+
+You can change it through the command as well:
 
 ```bash
+php artisan swagger:config --theme=dark
 php artisan swagger:init --force
 ```
 
-Colors and fonts are configurable:
+## Colors
+
+The config exposes primary, primary dark/light, secondary, success, warning, danger, dark, light, border, text and light-text colors.
 
 ```env
-SWAGGER_COLOR_PRIMARY=#3b82f6
-SWAGGER_COLOR_PRIMARY_DARK=#1e40af
-SWAGGER_COLOR_PRIMARY_LIGHT=#eff6ff
+SWAGGER_COLOR_PRIMARY=#e44332
+SWAGGER_COLOR_PRIMARY_DARK=#b93529
 SWAGGER_COLOR_SECONDARY=#06b6d4
-SWAGGER_FONT_FAMILY="system-ui, sans-serif"
-SWAGGER_FONT_MONO="Fira Code, monospace"
 ```
 
-Dark mode also supports enabled/default/persist behavior through configuration.
+## Fonts
+
+```php
+'fonts' => [
+    'family' => env('SWAGGER_FONT_FAMILY', 'system-ui, -apple-system, sans-serif'),
+    'mono' => env('SWAGGER_FONT_MONO', '"Fira Code", "Courier New", monospace'),
+],
+```
+
+## Dark mode
+
+```php
+'dark_mode' => [
+    'enabled' => true,
+    'default' => 'auto', // auto, light, dark
+    'persist' => true,
+],
+```
+
+Re-run `swagger:init --force` when you need initialized static UI assets to reflect a template/theme change.

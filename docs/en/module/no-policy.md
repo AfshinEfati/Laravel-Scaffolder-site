@@ -5,14 +5,20 @@ lang: en
 
 # `--no-policy`
 
-Explicitly disable policy generation for normal module generation:
+Explicitly disable Policy generation.
+
+```bash
+php artisan make:module Product --no-policy
+```
+
+This is useful when a project has enabled policies in `defaults.with_policy` but a particular module should not receive one.
+
+During a normal build, `--no-policy` is evaluated after `--policy`, so the negative switch wins if both are present.
 
 ```bash
 php artisan make:module Product --policy --no-policy
 ```
 
-or use it when the project default enables policies.
+No policy is generated.
 
-::: warning Full-stack precedence
-In the current implementation, `--all` and `--full` enable policies after the individual skip switches are evaluated. Therefore `--all --no-policy` still generates a policy. This page documents current runtime behavior; use a non-full-stack command when you need to omit the policy.
-:::
+`--all` / `--full` are applied later and enable the policy again.
