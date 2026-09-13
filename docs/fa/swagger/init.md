@@ -5,7 +5,7 @@ lang: fa
 
 # `swagger:init`
 
-Swagger UI مستقل پکیج را Initialize می‌کند:
+قبل از اینکه Swagger UI را اجرا کنی، باید فایل‌های UI داخل پروژه آماده شوند:
 
 ```bash
 php artisan swagger:init
@@ -18,23 +18,44 @@ swagger:init
   --force
 ```
 
-Command در صورت نیاز `storage/swagger-ui` را می‌سازد، فایل‌های UI داخلی را کپی می‌کند، Theme تنظیم‌شده را اعمال می‌کند و `.htaccess` لازم را ایجاد می‌کند.
+## این دستور دقیقاً چه می‌کند؟
 
-فایل موجود بدون `--force` جایگزین نمی‌شود. اگر `swagger.json` واقعی وجود داشته باشد، Example داخلی پکیج روی آن نوشته نمی‌شود.
+در صورت نیاز پوشه‌ی زیر را می‌سازد:
+
+```text
+storage/swagger-ui/
+```
+
+بعد فایل‌های UI داخلی پکیج را کپی می‌کند، Theme فعلی را اعمال می‌کند و `.htaccess` لازم را هم می‌سازد.
+
+اگر فایل از قبل وجود داشته باشد، بدون `--force` روی آن نوشته نمی‌شود. یک نکته‌ی مهم هم این است که اگر `swagger.json` واقعی داشته باشی، Example داخلی پکیج جای آن را نمی‌گیرد.
+
+## اگر Theme را عوض کردی
+
+مثلاً:
 
 ```bash
+php artisan swagger:config --theme=dark
 php artisan swagger:init --force
 ```
 
-Theme از این Config می‌آید:
+`--force` باعث می‌شود فایل‌های UI با Theme جدید دوباره آماده شوند.
+
+Theme از این Config خوانده می‌شود:
 
 ```php
 config('module-generator.swagger.theme', 'vanilla')
 ```
 
-مقادیر موجود: `vanilla`، `tailwind` و `dark`.
+مقادیر فعلی:
 
-بعد از Initialize:
+```text
+vanilla
+tailwind
+dark
+```
+
+بعد از Init معمولاً مرحله‌ی بعد این است:
 
 ```bash
 php artisan swagger:generate

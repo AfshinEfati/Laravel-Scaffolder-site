@@ -5,7 +5,7 @@ lang: fa
 
 # `swagger:generate`
 
-OpenAPI JSON برنامه را از Routeها و Controllerهای Laravel تولید می‌کند:
+این دستور Routeهای Laravel را بررسی می‌کند و یک OpenAPI 3.0 JSON برای کل API می‌سازد:
 
 ```bash
 php artisan swagger:generate
@@ -21,7 +21,11 @@ swagger:generate
   --host=
 ```
 
-Spec تولیدشده `openapi: 3.0.0` دارد و شامل Info، Serverها، Pathهای پیدا شده و Security Schemeهای Config است.
+## خروجی شامل چه چیزهایی است؟
+
+Spec تولیدشده شامل `info`، Serverها، Pathهای تشخیص‌داده‌شده، Componentها و Security Schemeهای Config است.
+
+مثلاً:
 
 ```bash
 php artisan swagger:generate \
@@ -30,12 +34,29 @@ php artisan swagger:generate \
   --host=https://api.example.com
 ```
 
-اگر `--host` مشخص نشود، مقدار `config('app.url')` استفاده می‌شود.
+اگر `--host` ندهی، `config('app.url')` استفاده می‌شود.
 
-مسیر پیش‌فرض از Config مربوط به Spec می‌آید؛ قابل Override است:
+## مسیر فایل خروجی
+
+به‌صورت پیش‌فرض Path و Filename از این بخش Config می‌آیند:
+
+```php
+'spec' => [
+    'path' => env('SWAGGER_SPEC_PATH', 'storage/swagger-ui'),
+    'filename' => env('SWAGGER_SPEC_FILENAME', 'swagger.json'),
+],
+```
+
+اما برای یک اجرا می‌توانی مسیر را Override کنی:
 
 ```bash
 php artisan swagger:generate --output=storage/docs/openapi.json
 ```
 
-Generator روی Routeهای API تمرکز دارد و Routeهای رایج مربوط به Sanctum، Broadcasting و خود Docs/Swagger را کنار می‌گذارد.
+## چه Routeهایی وارد Spec می‌شوند؟
+
+Generator روی Routeهای API تمرکز دارد و Routeهای داخلی رایج مثل Sanctum، Broadcasting و خود Docs/Swagger را کنار می‌گذارد تا مستندات با Endpointهای جانبی پر نشوند.
+
+::: tip
+اگر فقط Doc مربوط به یک ماژول را می‌خواهی، `make:module Product --swagger` Flow دیگری است. `swagger:generate` Spec سراسری برنامه را می‌سازد.
+:::

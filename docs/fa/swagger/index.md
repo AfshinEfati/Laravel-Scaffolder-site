@@ -5,7 +5,11 @@ lang: fa
 
 # OpenAPI / Swagger
 
-Laravel Scaffolder یک Flow مستقل برای OpenAPI و Swagger UI دارد و برای Initialize کردن UI، ساخت JSON Spec یا Serve محلی به L5-Swagger وابسته نیست.
+Laravel Scaffolder برای Swagger دو Flow جدا دارد که بهتر است از اول تفاوتشان روشن باشد.
+
+## Flow اول: مستندات سراسری پروژه
+
+برای اینکه از Routeهای Laravel یک OpenAPI JSON بسازی و آن را داخل Swagger UI ببینی:
 
 ```bash
 php artisan swagger:init
@@ -13,28 +17,29 @@ php artisan swagger:generate
 php artisan swagger:ui
 ```
 
-## دستورات
+این Flow به L5-Swagger وابسته نیست. UI داخل خود پکیج است و Spec هم توسط Scaffolder ساخته می‌شود.
 
-| دستور | کاربرد |
+| دستور | چه کاری می‌کند؟ |
 | --- | --- |
-| `swagger:init` | Assetهای UI را در `storage/swagger-ui` آماده می‌کند. |
-| `swagger:generate` | OpenAPI 3.0 JSON را از Route/Controllerها می‌سازد. |
-| `swagger:ui` | UI مستقل را با PHP Built-in Server اجرا می‌کند. |
-| `swagger:config` | تنظیمات UI و Environment را مدیریت می‌کند. |
-| `make:swagger` | Generator قدیمی Annotation؛ Deprecated و برای Compatibility. |
+| `swagger:init` | فایل‌های Swagger UI را داخل `storage/swagger-ui` آماده می‌کند. |
+| `swagger:generate` | از Routeها و Controllerها یک OpenAPI 3.0 JSON می‌سازد. |
+| `swagger:ui` | همان UI را با PHP Built-in Server اجرا می‌کند. |
+| `swagger:config` | تنظیمات رایج UI و ENV را مدیریت می‌کند. |
+| `make:swagger` | Command قدیمی و Deprecated برای Flow قبلی مستندات. |
 
-## دو مسیر مستندسازی
+## Flow دوم: Swagger مربوط به یک ماژول
+
+این دستور بخشی از `make:module` است:
 
 ```bash
 php artisan make:module Product --swagger
-php artisan swagger:generate
 ```
 
-اولی بخشی از Flow ماژول است؛ دومی Spec سراسری JSON را از Routeهای برنامه تولید می‌کند.
+کارش با `swagger:generate` یکی نیست. `--swagger` Doc همان ماژول را در Flow ساخت Scaffolder تولید می‌کند، در حالی که `swagger:generate` Routeهای کل Application را می‌خواند و یک Spec سراسری JSON می‌سازد.
 
-## Serve کردن Swagger از Routeهای Laravel
+## اگر نمی‌خواهی سرور جدا اجرا کنی
 
-پکیج `Efati\ModuleGenerator\Http\Controllers\SwaggerUIController` را هم دارد. اگر می‌خواهید Docs به‌جای `swagger:ui` از خود Application Serve شود:
+پکیج Controller آماده‌ای برای Serve کردن UI و Spec از خود Laravel دارد:
 
 ```php
 use Efati\ModuleGenerator\Http\Controllers\SwaggerUIController;
@@ -46,10 +51,18 @@ Route::prefix('docs')->group(function () {
 });
 ```
 
-`index()` فایل `storage/swagger-ui/index.html` و `spec()` Spec تنظیم‌شده را Serve می‌کند. اگر `swagger.spec.secure` فعال باشد، Action مربوط به Spec Guardهای Laravel را برای User احراز هویت‌شده بررسی می‌کند.
+`index()` فایل `storage/swagger-ui/index.html` را برمی‌گرداند و `spec()` فایل Spec تنظیم‌شده را Serve می‌کند.
 
-در سورس Trait دیگری به نام `RegistersSwaggerRoutes` نیز وجود دارد که Endpointهای `/docs` و `/docs/swagger.json` را با همان Conventionها Register می‌کند. Service Provider پکیج این Routeها را خودکار Publish/Register نمی‌کند؛ در نتیجه تصمیم برای Expose کردن مستندات دست خود Application می‌ماند.
+Trait دیگری به نام `RegistersSwaggerRoutes` هم در پکیج وجود دارد و Convention مشابهی برای `/docs` و `/docs/swagger.json` دارد. Service Provider این Routeها را خودکار Public نمی‌کند؛ اینکه مستندات را کجا و با چه Middlewareای Expose کنی تصمیم خود Application است.
 
-## Config
+## از کجا شروع کنم؟
 
-Theme، Color، Font، Dark Mode، Server، Spec و Security Schemeها زیر `swagger` در `config/module-generator.php` قرار دارند.
+اگر فقط می‌خواهی سریع UI را ببینی:
+
+```bash
+php artisan swagger:init
+php artisan swagger:generate
+php artisan swagger:ui --refresh
+```
+
+برای Theme، رنگ‌ها و امنیت Spec هم صفحه‌های بعدی همین بخش را ببین.

@@ -5,13 +5,15 @@ lang: fa
 
 # `make:swagger` قدیمی
 
-`make:swagger` برای Compatibility باقی مانده اما در سورس پکیج **Deprecated** است. برای پروژه جدید از `swagger:generate` استفاده کنید.
+`make:swagger` هنوز برای Compatibility داخل پکیج وجود دارد، اما در سورس **Deprecated** شده است. برای پروژه جدید از Flow JSON-based استفاده کن:
 
 ```bash
+php artisan swagger:init
 php artisan swagger:generate
+php artisan swagger:ui
 ```
 
-Signature قدیمی:
+## Signature قدیمی
 
 ```text
 make:swagger
@@ -21,11 +23,15 @@ make:swagger
   --output=
 ```
 
-این Command Routeها را Scan می‌کند، می‌تواند بر اساس Path Prefix یا Controller Namespace Filter کند، Routeها را بر اساس Controller Group کند و فایل‌های PHP مبتنی بر Annotation بسازد. مسیر پیش‌فرض خروجی `app/Docs` است.
+این Command Routeها را Scan می‌کند، می‌تواند با Path Prefix یا Controller Namespace فیلتر کند و Routeها را براساس Controller گروه‌بندی کند. خروجی قدیمی فایل‌های PHP مربوط به Swagger Doc است و Path پیش‌فرض آن `app/Docs` است.
+
+مثال:
 
 ```bash
 php artisan make:swagger --path=api/v1
 ```
+
+یا:
 
 ```bash
 php artisan make:swagger \
@@ -34,10 +40,4 @@ php artisan make:swagger \
   --force
 ```
 
-Flow جدید:
-
-```bash
-php artisan swagger:init
-php artisan swagger:generate
-php artisan swagger:ui
-```
+اگر پروژه‌ای از قبل روی این Flow است می‌توانی فعلاً نگهش داری، ولی برای قابلیت جدید و مستندات تازه بهتر است مهاجرت به `swagger:generate` را در نظر بگیری.
