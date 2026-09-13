@@ -5,7 +5,7 @@ lang: fa
 
 # Publish و Stub سفارشی
 
-پکیج دو Publish Tag با مسئولیت متفاوت دارد.
+Scaffolder دو Publish Tag دارد و هر کدام برای یک کار متفاوت است. لازم نیست همیشه هر دو را Publish کنی.
 
 ## `module-generator`
 
@@ -13,31 +13,37 @@ lang: fa
 php artisan vendor:publish --tag=module-generator
 ```
 
-BaseRepository، Interface آن، CriteriaInterface، BaseService، Interface آن، ApiResponseHelper و Config را وارد خود پروژه می‌کند.
+این Tag فایل‌های پایه‌ای را وارد پروژه می‌کند: `BaseRepository`، Contract آن، `CriteriaInterface`، `BaseService`، Contract آن، `ApiResponseHelper` و فایل Config.
 
-این فایل‌ها بعد از Publish متعلق به Application هستند و می‌توانید مطابق استاندارد پروژه تغییرشان دهید.
+بعد از Publish، این فایل‌ها متعلق به پروژه‌ی تو هستند. اگر Base Repository یا شکل Response پروژه استاندارد خاصی دارد، می‌توانی همین نسخه‌ها را تغییر بدهی.
 
 ## `module-generator-stubs`
+
+اگر می‌خواهی خود Template خروجی Generator را تغییر بدهی، این Tag را Publish کن:
 
 ```bash
 php artisan vendor:publish --tag=module-generator-stubs
 ```
 
-Templateهای Generator را به این مسیر می‌برد:
+Stubها اینجا قرار می‌گیرند:
 
 ```text
 resources/stubs/module-generator/
 ```
 
-::: warning
-Stub Publish‌شده Copy مستقل پروژه است؛ Upgrade پکیج نمی‌تواند تغییرات Template جدید را روی Custom Stub شما Merge کند. هنگام Upgrade اختلاف‌ها را بررسی کنید.
+از این به بعد Scaffolder برای ساخت فایل‌ها از نسخه‌ی داخل پروژه استفاده می‌کند؛ پس می‌توانی Namespace، Base Class، DocBlock یا هر بخش دیگری از Templateها را مطابق استاندارد تیم خودت تغییر بدهی.
+
+::: warning حواست به Upgrade باشد
+Stubی که Publish می‌کنی یک کپی مستقل داخل پروژه است. اگر نسخه‌ی جدید پکیج Stub اصلی را تغییر بدهد، آن تغییر به‌صورت خودکار داخل Stub سفارشی تو Merge نمی‌شود. بعد از Upgrade بهتر است اختلاف Stubها را بررسی کنی.
 :::
 
-## Flow پیشنهادی
+## روشی که دردسر کمتری دارد
 
-1. Stubها را Publish کنید؛
-2. نسخه دست‌نخورده را Commit کنید؛
-3. هر بار یک Template را تغییر دهید؛
-4. یک ماژول آزمایشی بسازید؛
-5. Namespace/Import/Testها را بررسی کنید؛
-6. بعد از آن روی Feature واقعی استفاده کنید.
+1. Stubها را Publish کن.
+2. قبل از تغییر، همان نسخه‌ی اولیه را Commit کن.
+3. هر بار فقط یک Template را تغییر بده.
+4. با یک Model آزمایشی `make:module` را اجرا کن.
+5. Namespace، Importها و Testها را بررسی کن.
+6. وقتی خروجی درست شد، روی Feature واقعی استفاده‌اش کن.
+
+این کار باعث می‌شود اگر بعداً خروجی خراب شد، دقیقاً بدانی کدام تغییر Stub باعثش شده.

@@ -5,9 +5,9 @@ lang: fa
 
 # معماری خروجی
 
-Laravel Scaffolder کلاس‌های عادی Laravel تولید می‌کند؛ Feature پشت Runtime Magic یا Module Container پنهان نمی‌شود.
+Scaffolder یک Framework جدید روی Laravel نمی‌سازد. خروجی‌اش همان کلاس‌های معمول Laravel است و بعد از Generate شدن، هر کدام را هر طور لازم باشد می‌توانی تغییر بدهی.
 
-نمونه Stack کامل Product:
+برای یک ماژول کامل `Product`، ساختار معمول تقریباً این شکلی است:
 
 ```text
 app/
@@ -37,20 +37,24 @@ app/
 tests/Feature/ProductCrudTest.php
 ```
 
-## مسئولیت لایه‌ها
+## هر لایه چه کاری دارد؟
 
-| لایه | مسئولیت |
+| لایه | کاربرد |
 | --- | --- |
-| Repository | Persistence، Queryهای Dynamic و Criteria |
-| Service | هماهنگی Application بالای Repository |
-| DTO | مرز داده Typed بین Request و Application |
-| Action | عملیات متمرکز، از جمله ListWithRelations |
-| Controller | Transport HTTP و Response |
-| Form Request | Validation برای Store/Update |
-| Resource | Transform فیلد، Date، Status و Relation |
-| Provider | Binding Contractها و Registration |
-| Policy | Authorization پروژه |
-| Feature Test | Scaffold تست CRUD بر اساس Schema |
-| Docs | OpenAPI مربوط به ماژول |
+| Repository | Queryها، Persistence، Dynamic Query و Criteria |
+| Service | منطق Application و هماهنگی عملیات بالای Repository |
+| DTO | انتقال داده بین Request و لایه Application با ساختار مشخص |
+| Action | جدا کردن هر عملیات اصلی در یک کلاس کوچک‌تر و مشخص |
+| Controller | گرفتن HTTP Request و برگرداندن Response |
+| Form Request | Validation مربوط به Create و Update |
+| Resource | شکل‌دادن خروجی API، Dateها، Statusها و Relationهای Loadشده |
+| Provider | Binding کردن Interfaceها به پیاده‌سازی واقعی |
+| Policy | نقطه شروع Authorization مربوط به Model |
+| Feature Test | تست CRUD بر اساس Schema واقعی فیچر |
+| Docs | مستندات OpenAPI تولیدشده برای ماژول |
 
-Root مسیرها از Config قابل تغییر است و Stubهای Publish‌شده شکل خروجی را قابل شخصی‌سازی می‌کنند.
+## لازم نیست همه‌ی لایه‌ها را بسازی
+
+ساختار بالا خروجی کامل است، نه اجبار معماری. مثلاً اگر DTO نمی‌خواهی `--no-dto` داری، اگر Action نمی‌خواهی `--no-actions` داری و اگر فقط بعضی قابلیت‌ها را لازم داری می‌توانی Command را دقیقاً همان‌طور تنظیم کنی.
+
+مسیر هر لایه هم از `config/module-generator.php` قابل تغییر است؛ یعنی مجبور نیستی ساختار پوشه‌های پیش‌فرض پکیج را نگه داری.

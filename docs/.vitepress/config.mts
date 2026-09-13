@@ -79,6 +79,31 @@ export default defineConfig({
   cleanUrls: true,
   lastUpdated: true,
   sitemap: { hostname: 'https://afshinefati.github.io/Laravel-Scaffolder-site/' },
+  locales: {
+    en: {
+      label: 'English',
+      lang: 'en',
+      link: '/en/',
+    },
+    fa: {
+      label: 'فارسی',
+      lang: 'fa',
+      dir: 'rtl',
+      link: '/fa/',
+      themeConfig: {
+        aside: 'left',
+        outline: { level: [2, 3], label: 'در این صفحه' },
+        docFooter: { prev: 'صفحه قبل', next: 'صفحه بعد' },
+        sidebarMenuLabel: 'فهرست',
+        returnToTopLabel: 'برگشت به بالا',
+        darkModeSwitchLabel: 'حالت نمایش',
+        lightModeSwitchTitle: 'تغییر به حالت روشن',
+        darkModeSwitchTitle: 'تغییر به حالت تیره',
+        langMenuLabel: 'تغییر زبان',
+        lastUpdatedText: 'آخرین به‌روزرسانی',
+      },
+    },
+  },
   head: [
     ['meta', { name: 'theme-color', content: '#e44332' }],
     ['meta', { property: 'og:type', content: 'website' }],
@@ -93,8 +118,6 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/AfshinEfati/Laravel-Scaffolder' }
     ],
     nav: [
-      { text: 'English', link: '/en/' },
-      { text: 'فارسی', link: '/fa/' },
       { text: 'v8.x', items: [
         { text: 'Package repository', link: 'https://github.com/AfshinEfati/Laravel-Scaffolder' },
         { text: 'Releases', link: 'https://github.com/AfshinEfati/Laravel-Scaffolder/releases' }
@@ -148,14 +171,14 @@ export default defineConfig({
           { text: 'نصب', link: '/fa/getting-started/installation' },
           { text: 'شروع سریع', link: '/fa/getting-started/quick-start' },
           { text: 'معماری خروجی', link: '/fa/getting-started/generated-architecture' },
-          { text: 'پیکربندی', link: '/fa/getting-started/configuration' },
+          { text: 'تنظیمات', link: '/fa/getting-started/configuration' },
           { text: 'Publish و Stub سفارشی', link: '/fa/getting-started/publishing' },
         ]},
-        { text: 'آپشن‌های make:module', collapsed: false, items: moduleOptionsFa },
-        { text: 'لایه‌های تولیدشده', collapsed: false, items: layersFa },
+        { text: 'گزینه‌های make:module', collapsed: false, items: moduleOptionsFa },
+        { text: 'لایه‌های ساخته‌شده', collapsed: false, items: layersFa },
         { text: 'تشخیص Schema', items: [
-          { text: 'روش کشف فیلدها', link: '/fa/schema/discovery' },
-          { text: 'سینتکس --fields', link: '/fa/schema/inline-fields' },
+          { text: 'Scaffolder فیلدها را از کجا می‌خواند؟', link: '/fa/schema/discovery' },
+          { text: 'نوشتن فیلدها با --fields', link: '/fa/schema/inline-fields' },
           { text: 'نوع‌های پشتیبانی‌شده', link: '/fa/schema/types' },
           { text: 'Modifier و Foreign Key', link: '/fa/schema/modifiers' },
           { text: 'Relationها', link: '/fa/schema/relationships' },
@@ -178,8 +201,8 @@ export default defineConfig({
         ]},
         { text: 'مرجع', items: [
           { text: 'فهرست دستورات', link: '/fa/reference/commands' },
-          { text: 'مرجع پیکربندی', link: '/fa/reference/configuration' },
-          { text: 'سازگاری', link: '/fa/reference/compatibility' },
+          { text: 'مرجع تنظیمات', link: '/fa/reference/configuration' },
+          { text: 'سازگاری نسخه‌ها', link: '/fa/reference/compatibility' },
           { text: 'رفع اشکال', link: '/fa/reference/troubleshooting' },
         ]},
       ],

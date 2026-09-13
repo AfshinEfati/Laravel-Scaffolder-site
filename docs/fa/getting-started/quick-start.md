@@ -5,7 +5,7 @@ lang: fa
 
 # شروع سریع
 
-ساده‌ترین Flow این است که Model/Migration را بسازید و Feature را دور آن Scaffold کنید:
+اگر Model و Migration را می‌سازی و می‌خواهی بقیه‌ی لایه‌های فیچر آماده شوند، ساده‌ترین Flow این است:
 
 ```bash
 php artisan make:model Product -m
@@ -13,35 +13,35 @@ php artisan migrate
 php artisan make:module Product
 ```
 
-با Config پیش‌فرض پکیج، Command در API Mode اجرا می‌شود و Repository/Service به‌همراه DTO، Resource، Provider، Controller، Requestها، Actionها و Feature Test می‌سازد.
+با تنظیمات پیش‌فرض، Scaffolder ماژول را در حالت API می‌سازد و Repository، Service، DTO، Resource، Provider، Controller، Form Request، Action و Feature Test را کنار هم ایجاد می‌کند.
 
-## Stack کامل
+## همه‌چیز را یک‌جا می‌خواهی؟
 
 ```bash
 php artisan make:module Product --all
 ```
 
-Policy و Swagger هم فعال می‌شوند. قواعد دقیق Override را در صفحه [`--all / --full`](/fa/module/full-stack) ببینید.
+`--all` یا `--full` علاوه بر لایه‌های معمول، Policy و Swagger را هم فعال می‌کند. یک نکته‌ی مهم درباره‌ی ترکیب این گزینه با `--no-*`ها وجود دارد که در صفحه [`--all / --full`](/fa/module/full-stack) کامل توضیح داده شده.
 
-## قبل از وجود Model
+## هنوز Model نداری؟
 
-Schema را Inline بدهید:
+مشکلی نیست. می‌توانی Schema را مستقیم به Command بدهی:
 
 ```bash
 php artisan make:module Product --api \
   --fields="name:string:unique,price:decimal(10,2),stock:integer,is_active:boolean"
 ```
 
-یا Migration مشخص کنید:
+یا اگر Migration آماده است، همان را منبع قرار بده:
 
 ```bash
 php artisan make:module Product \
   --from-migration=database/migrations/2026_09_01_000000_create_products_table.php
 ```
 
-Build عادی بدون Model و بدون `--fields` یا Migration Hint صریح متوقف می‌شود.
+اگر نه Model وجود داشته باشد، نه `--fields` داده باشی و نه Migration مشخص کرده باشی، Command متوقف می‌شود؛ چون بدون Schema نمی‌تواند خروجی قابل‌اعتمادی برای DTO، Validation و Test بسازد.
 
-## Swagger UI
+## Swagger UI را هم بالا بیاور
 
 ```bash
 php artisan swagger:init
@@ -49,10 +49,12 @@ php artisan swagger:generate
 php artisan swagger:ui
 ```
 
-## بازتولید
+## اگر فایل‌ها از قبل وجود دارند
 
-برای جایگزینی فایل‌های موجود باید صریحاً `--force` بدهید:
+Scaffolder به‌صورت پیش‌فرض روی فایل موجود نمی‌نویسد. اگر واقعاً می‌خواهی فایل‌ها دوباره ساخته شوند، `--force` را صریحاً اضافه کن:
 
 ```bash
 php artisan make:module Product --all --force
 ```
+
+قبل از استفاده از `--force` روی کد واقعی، بهتر است Diff را بررسی کنی یا تغییراتت Commit شده باشند.

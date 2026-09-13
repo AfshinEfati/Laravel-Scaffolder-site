@@ -1,17 +1,23 @@
 ---
-title: پیکربندی
+title: تنظیمات
 lang: fa
 ---
 
-# پیکربندی
+# تنظیمات
 
-Config را Publish کنید:
+اگر مسیر پوشه‌ها یا رفتار پیش‌فرض Scaffolder با ساختار پروژه‌ات یکی نیست، Config را Publish کن:
 
 ```bash
 php artisan vendor:publish --tag=module-generator
 ```
 
-`config/module-generator.php` Namespace، مسیرهای خروجی، Defaultهای Command، Swagger UI و Logging Channel را کنترل می‌کند.
+فایل اصلی تنظیمات این است:
+
+```text
+config/module-generator.php
+```
+
+از همین فایل می‌توانی Namespace پایه، مسیر خروجی لایه‌ها، رفتار پیش‌فرض `make:module` و تنظیمات Swagger را عوض کنی.
 
 ## Namespace پایه
 
@@ -19,9 +25,9 @@ php artisan vendor:publish --tag=module-generator
 'base_namespace' => 'App',
 ```
 
-Modelها به‌صورت پیش‌فرض زیر `{base_namespace}\Models` جست‌وجو می‌شوند.
+Scaffolder به‌صورت پیش‌فرض Modelها را زیر `{base_namespace}\Models` پیدا می‌کند. برای اکثر پروژه‌های Laravel همان `App` مناسب است.
 
-## مسیرها
+## مسیر فایل‌های تولیدشده
 
 ```php
 'paths' => [
@@ -46,13 +52,15 @@ Modelها به‌صورت پیش‌فرض زیر `{base_namespace}\Models` جس�
 ],
 ```
 
-Test Path:
+مسیر Feature Test هم جداست:
 
 ```php
 'tests' => ['feature' => 'tests/Feature'],
 ```
 
-## Defaultهای `make:module`
+اگر پروژه‌ات مثلاً Controllerها را داخل `Http/Controllers/Admin` یا Serviceها را داخل مسیر دیگری نگه می‌دارد، لازم نیست Generator را دست‌کاری کنی؛ همین Pathها را تغییر بده.
+
+## رفتار پیش‌فرض `make:module`
 
 ```php
 'defaults' => [
@@ -68,11 +76,11 @@ Test Path:
 ],
 ```
 
-CLI Optionها روی این مقادیر اعمال می‌شوند. API Mode علاوه بر `controller_type`، Request و Action را هم فعال می‌کند مگر Action صریحاً خاموش شود.
+Optionهای CLI روی همین Defaultها اعمال می‌شوند. مثلاً حالت `--api` فقط نوع Controller را عوض نمی‌کند؛ Request و Action را هم فعال می‌کند، مگر اینکه Action را صریحاً با `--no-actions` خاموش کرده باشی.
 
-## Swagger
+## تنظیمات Swagger
 
-بخش `swagger` شامل Theme، Color، Font، Dark Mode، Display، Host/Port، Spec Path و Security Schemeهاست.
+بخش `swagger` تنظیمات Theme، رنگ‌ها، فونت، Dark Mode، عنوان UI، Host و Port، مسیر `swagger.json` و Security Schemeها را نگه می‌دارد. جزئیات کاملش در بخش [Swagger](/fa/swagger/) آمده.
 
 ## Logging
 
@@ -80,4 +88,4 @@ CLI Optionها روی این مقادیر اعمال می‌شوند. API Mode �
 'logging_channel' => env('MODULE_GENERATOR_LOG_CHANNEL'),
 ```
 
-برای Infrastructure مربوط به Actionهای تولیدشده قابل استفاده است.
+اگر برای Actionهای تولیدشده Logging اختصاصی می‌خواهی، Channel را از اینجا یا ENV تنظیم کن.

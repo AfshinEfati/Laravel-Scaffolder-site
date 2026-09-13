@@ -101,33 +101,120 @@
 .VPDocAsideOutline .outline-title { font-weight: 700; }
 .VPDocAsideOutline .outline-link { line-height: 1.45; }
 
-html[lang='fa'] body,
-html[lang='fa'] .VPDoc,
-html[lang='fa'] .VPSidebar,
-html[lang='fa'] .VPNav {
+/* Persian / RTL ---------------------------------------------------------- */
+html[dir='rtl'] body,
+html[dir='rtl'] .VPNav,
+html[dir='rtl'] .VPSidebar,
+html[dir='rtl'] .VPContent,
+html[dir='rtl'] .VPDoc,
+html[dir='rtl'] .VPDocAside,
+html[dir='rtl'] .VPDocFooter,
+html[dir='rtl'] .VPFooter {
   font-family: "Vazirmatn", ui-sans-serif, system-ui, sans-serif;
+  direction: rtl;
 }
 
-html[lang='fa'] .VPDoc .container,
-html[lang='fa'] .vp-doc {
-  direction: rtl;
+html[dir='rtl'] .VPNavBar,
+html[dir='rtl'] .VPNavBarMenu,
+html[dir='rtl'] .VPNavScreen,
+html[dir='rtl'] .VPSidebar,
+html[dir='rtl'] .VPSidebarItem,
+html[dir='rtl'] .VPDocAsideOutline,
+html[dir='rtl'] .VPDocFooter,
+html[dir='rtl'] .VPFooter,
+html[dir='rtl'] .vp-doc,
+html[dir='rtl'] .custom-block {
   text-align: right;
 }
 
-html[lang='fa'] .vp-doc pre,
-html[lang='fa'] .vp-doc code,
-html[lang='fa'] .vp-doc div[class*='language-'] {
+html[dir='rtl'] .VPDoc .container,
+html[dir='rtl'] .vp-doc {
+  direction: rtl;
+}
+
+html[dir='rtl'] .vp-doc p,
+html[dir='rtl'] .vp-doc li,
+html[dir='rtl'] .vp-doc h1,
+html[dir='rtl'] .vp-doc h2,
+html[dir='rtl'] .vp-doc h3,
+html[dir='rtl'] .vp-doc h4,
+html[dir='rtl'] .vp-doc th,
+html[dir='rtl'] .vp-doc td {
+  text-align: right;
+}
+
+html[dir='rtl'] .vp-doc h1,
+html[dir='rtl'] .vp-doc h2,
+html[dir='rtl'] .vp-doc h3 {
+  letter-spacing: 0;
+}
+
+html[dir='rtl'] .vp-doc ul,
+html[dir='rtl'] .vp-doc ol {
+  padding-left: 0;
+  padding-right: 1.4rem;
+}
+
+html[dir='rtl'] .vp-doc table {
+  direction: rtl;
+}
+
+html[dir='rtl'] .vp-doc blockquote {
+  border-left: 0;
+  border-right: 4px solid var(--vp-c-brand-1);
+  border-radius: 10px 0 0 10px;
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+html[dir='rtl'] .custom-block {
+  direction: rtl;
+}
+
+html[dir='rtl'] .custom-block .custom-block-title {
+  text-align: right;
+}
+
+html[dir='rtl'] .VPSidebarItem .item,
+html[dir='rtl'] .VPSidebarItem .text,
+html[dir='rtl'] .VPDocAsideOutline .outline-title,
+html[dir='rtl'] .VPDocAsideOutline .outline-link {
+  text-align: right;
+}
+
+html[dir='rtl'] .vp-doc pre,
+html[dir='rtl'] .vp-doc div[class*='language-'],
+html[dir='rtl'] .vp-doc div[class*='language-'] pre,
+html[dir='rtl'] .vp-doc div[class*='language-'] code {
   direction: ltr;
   text-align: left;
   font-family: "Fira Code", ui-monospace, monospace;
 }
 
-html[lang='fa'] .vp-doc blockquote {
-  border-left: 0;
-  border-right: 4px solid var(--vp-c-brand-1);
-  border-radius: 10px 0 0 10px;
+html[dir='rtl'] .vp-doc :not(pre) > code {
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-family: "Fira Code", ui-monospace, monospace;
+}
+
+html[dir='rtl'] .VPDocFooter .pager-link,
+html[dir='rtl'] .VPDocFooter .title,
+html[dir='rtl'] .VPDocFooter .desc {
+  text-align: right;
 }
 
 @media (min-width: 960px) {
   .VPDoc.has-aside .content-container { padding: 0 12px; }
+
+  html[dir='rtl'] .VPSidebar {
+    left: auto;
+    right: 0;
+    border-right: 0;
+    border-left: 1px solid var(--vp-c-divider);
+  }
+
+  html[dir='rtl'] .VPContent.has-sidebar {
+    padding-left: 0;
+    padding-right: var(--vp-sidebar-width);
+  }
 }

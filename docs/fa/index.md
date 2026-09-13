@@ -5,9 +5,9 @@ lang: fa
 
 # Laravel Scaffolder
 
-## ساخت معماری کامل فیچرهای Laravel با یک دستور
+## یک فیچر کامل Laravel را با یک دستور بساز
 
-Laravel Scaffolder کارهای تکراری ساخت یک فیچر را به یک جریان شفاف Artisan تبدیل می‌کند. Repository، Service، DTO، Action، Controller، Form Request، API Resource، Provider، Policy، Feature Test و مستندات OpenAPI تولید می‌شوند، اما تمام فایل‌ها داخل پروژه‌ی خودت می‌مانند و مثل کد عادی Laravel قابل ویرایش‌اند.
+اگر برای هر فیچر جدید دوباره Repository، Service، DTO، Controller، Request، Resource و Test می‌سازی، Laravel Scaffolder دقیقاً برای کم‌کردن همین کار تکراری ساخته شده. خروجی هم داخل پروژه‌ی خودت است؛ یعنی هیچ Runtime Magic یا ساختار مخفی‌ای در کار نیست و هر فایلی که ساخته می‌شود مثل بقیه‌ی کدهای Laravel قابل تغییر است.
 
 ```bash
 composer require efati/laravel-scaffolder
@@ -15,19 +15,23 @@ php artisan make:model Product -m
 php artisan make:module Product --all
 ```
 
-Generator می‌تواند Schema را از مدل و دیتابیس در حال اجرا، Migration یا `--fields` بخواند و همان Metadata را برای DTO، Ruleهای Validation، Resource، Test و Swagger استفاده کند.
+Scaffolder می‌تواند اطلاعات فیلدها را از Model و دیتابیس، از Migration یا مستقیم از `--fields` بخواند. بعد همان اطلاعات را برای ساخت DTO، Validation، Resource، Test و مستندات OpenAPI استفاده می‌کند تا لایه‌ها با هم ناسازگار نشوند.
 
-## چرا این پکیج متفاوت است؟
+## چه چیزهایی برایت می‌سازد؟
 
-- **خروجی شفاف** — هیچ جادوی Runtime پشت کد نیست؛ فایل واقعی Laravel ساخته می‌شود.
-- **معماری لایه‌ای** — Repository، Service، DTO، Action و لایه‌ی HTTP می‌توانند هماهنگ ساخته شوند.
-- **تشخیص Schema** — Metadata از Runtime، Migration یا تعریف مستقیم CLI قابل استخراج است.
-- **Regeneration امن** — بدون `--force` فایل موجود بازنویسی نمی‌شود.
-- **OpenAPI داخلی** — تولید JSON و Swagger UI مستقل بدون نیاز به L5-Swagger.
-- **قابل پیکربندی** — Namespace، مسیرها، نوع Controller، ظاهر Swagger و Security قابل تغییرند.
+- **Repository و Service** برای جدا نگه‌داشتن Query و منطق Application.
+- **DTO و Action** برای اینکه داده و عملیات فیچر ساختار مشخصی داشته باشند.
+- **Controller، Form Request و Resource** برای لایه HTTP و API.
+- **Provider و Policy** برای Binding و Authorization.
+- **Feature Test** بر اساس فیلدهای واقعی مدل یا Migration.
+- **OpenAPI / Swagger** برای مستندات API و Swagger UI مستقل.
+
+## چیزی که Scaffolder عمداً انجام نمی‌دهد
+
+کد را پشت یک سیستم اختصاصی قفل نمی‌کند. بعد از Generate شدن فایل‌ها، مالک آن کد خود پروژه است. می‌توانی کلاس‌ها را تغییر بدهی، Stubها را عوض کنی یا بعضی لایه‌ها را اصلاً نسازی.
 
 ::: tip سازگاری فعلی
-نسخه‌ی فعلی با Laravel 10 تا 13 و PHP 8.1 تا 8.5 سازگار است.
+نسخه فعلی پکیج از Laravel 10 تا 13 و PHP 8.1 تا 8.5 پشتیبانی می‌کند.
 :::
 
-از [نصب](/fa/getting-started/installation) شروع کن یا مستقیماً برو سراغ [`make:module`](/fa/module/overview).
+اگر بار اول است از پکیج استفاده می‌کنی، از [نصب](/fa/getting-started/installation) شروع کن. اگر پکیج را نصب کرده‌ای، مستقیم برو سراغ [شروع سریع](/fa/getting-started/quick-start) یا [مرجع `make:module`](/fa/module/overview).
