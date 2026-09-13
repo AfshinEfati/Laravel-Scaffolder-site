@@ -5,21 +5,32 @@ lang: fa
 
 # `--requests` / `-r`
 
-Store و Update Form Request را داخل پوشه همان ماژول می‌سازد:
+این Option دو Form Request برای Create و Update می‌سازد:
 
 ```bash
 php artisan make:module Product --requests
 ```
+
+خروجی پیش‌فرض:
 
 ```text
 app/Http/Requests/Product/StoreProductRequest.php
 app/Http/Requests/Product/UpdateProductRequest.php
 ```
 
-Ruleها از Schema می‌توانند Required/Nullable، Type، Unique و Foreign `exists` را بسازند. Update Request نیز Unique را برای Record فعلی Adjust می‌کند.
+## Ruleها از کجا می‌آیند؟
 
-`--api`، `--all` و `--full` Requestها را فعال می‌کنند.
+اگر Schema در دسترس باشد، Scaffolder از همان اطلاعات برای ساخت Ruleها استفاده می‌کند؛ مثلاً:
+
+- `required` یا `nullable`؛
+- نوع داده مثل `string`، `integer` یا `numeric`؛
+- `unique`؛
+- و `exists` برای Foreign Keyها.
+
+Update Request هم Ruleهای Unique را طوری می‌سازد که رکورد فعلی باعث Conflict نشود.
+
+`--api`، `--all` و `--full` Requestها را خودکار فعال می‌کنند.
 
 ::: info
-Option `--no-requests` در Signature فعلی وجود ندارد.
+فعلاً Option مستقیمی به نام `--no-requests` وجود ندارد.
 :::

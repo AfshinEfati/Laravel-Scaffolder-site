@@ -5,7 +5,7 @@ lang: fa
 
 # `--actions`
 
-Action Layer را تولید می‌کند:
+اگر می‌خواهی عملیات اصلی ماژول به Actionهای جدا تقسیم شوند، این Option را فعال کن:
 
 ```bash
 php artisan make:module Product --actions
@@ -24,12 +24,14 @@ app/Actions/Product/
 └── ListWithRelationsProductAction.php
 ```
 
-Create/Update در حالت DTO، DTO-aware هستند. با `--no-dto` Payload آنها Array-based می‌شود.
+`Create` و `Update` وقتی DTO فعال باشد DTO-aware هستند. اگر `--no-dto` بدهی، Payload آن‌ها با Array کار می‌کند.
 
-API Mode Action را خودکار فعال می‌کند مگر:
+## همراه API Mode
+
+`--api` خودش Actionها را روشن می‌کند. اگر API می‌خواهی ولی Action Layer نمی‌خواهی:
 
 ```bash
 php artisan make:module Product --api --no-actions
 ```
 
-`--all` و `--full` Action را دوباره فعال می‌کنند.
+فقط یادت باشد `--all` و `--full` در انتها Actionها را دوباره فعال می‌کنند.

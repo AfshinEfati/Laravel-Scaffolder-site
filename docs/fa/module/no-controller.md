@@ -5,18 +5,20 @@ lang: fa
 
 # `--no-controller` / `-nc`
 
-Controller را از خروجی حذف می‌کند:
+اگر برای این ماژول Controller نمی‌خواهی:
 
 ```bash
 php artisan make:module Product --no-controller
 ```
 
-Repository، Service و سایر لایه‌های فعال همچنان ساخته می‌شوند. این حالت برای Featureهایی که از Job، Event، Console یا Transport دیگری استفاده می‌کنند مناسب است.
+Repository و Service و هر لایه‌ی دیگری که فعال مانده باشد ساخته می‌شوند، اما Controller حذف می‌شود.
 
-اگر `--controller=...` هم بدهید، مقدار صریح Subfolder بعداً Controller را دوباره فعال می‌کند:
+## دو حالتی که دوباره Controller را روشن می‌کنند
+
+اگر `--controller=...` با مقدار بدهی، Controller دوباره فعال می‌شود:
 
 ```bash
 php artisan make:module Product --no-controller --controller=Admin
 ```
 
-`--all` و `--full` نیز Controller را دوباره فعال می‌کنند.
+`--all` و `--full` هم در انتهای Flow Controller را دوباره روشن می‌کنند.

@@ -5,26 +5,22 @@ lang: fa
 
 # `--fields`
 
-Schema را مستقیم در CLI تعریف می‌کند:
+وقتی Model یا Migration آماده نیست، یا می‌خواهی Schema را دقیقاً خودت مشخص کنی، از `--fields` استفاده کن:
 
 ```bash
 php artisan make:module Product \
   --fields="name:string:unique,price:decimal(10,2),is_active:boolean"
 ```
 
-این حالت مخصوصاً وقتی Model یا Migration هنوز وجود ندارد مفید است.
-
-## سینتکس
-
-هر فیلد:
+## فرمت هر فیلد
 
 ```text
 name:type[:modifier[:modifier...]]
 ```
 
-Fieldها با کاما جدا می‌شوند و Parser کامای داخل پرانتز نوع‌هایی مثل `decimal(10,2)` را درست نگه می‌دارد.
+فیلدها با کاما جدا می‌شوند. Parser حواسش به پرانتز هست، پس کامای داخل `decimal(10,2)` فیلد جدید حساب نمی‌شود.
 
-Modifierهای شناخته‌شده:
+## Modifierهای قابل استفاده
 
 ```text
 nullable | null | optional
@@ -35,9 +31,9 @@ foreign=table.column
 references=table.column
 ```
 
-Separator می‌تواند `:`، `|` یا فاصله باشد.
+برای جدا کردن Modifierها می‌توانی از `:`، `|` یا فاصله استفاده کنی.
 
-## نمونه‌ها
+## چند مثال
 
 ```bash
 php artisan make:module Customer \
@@ -49,8 +45,18 @@ php artisan make:module Order \
   --fields="user_id:integer:fk=users.id,total:decimal(12,2),paid:boolean"
 ```
 
-## Normalize نوع‌ها
+## نوع‌ها Normalize می‌شوند
 
-برای نمونه `varchar` به `string`، `bigInteger` و `foreignId` به `integer`، `decimal` به `numeric`، `bool` به `boolean`، `timestamp` به `datetime` و `jsonb` به `json` تبدیل می‌شوند.
+برای مثال:
 
-وقتی `--fields` معتبر وجود داشته باشد، همان Schema صریح نگه داشته می‌شود و اطلاعات Runtime/Migration روی آن Merge نمی‌شود.
+```text
+varchar       -> string
+bigInteger    -> integer
+foreignId     -> integer
+decimal       -> numeric
+bool          -> boolean
+timestamp     -> datetime
+jsonb         -> json
+```
+
+اگر `--fields` معتبر داده باشی، همان Schema صریح منبع اصلی است و اطلاعات Runtime یا Migration روی آن Merge نمی‌شود.

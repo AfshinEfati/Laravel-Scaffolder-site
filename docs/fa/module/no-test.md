@@ -5,16 +5,16 @@ lang: fa
 
 # `--no-test` / `-nt`
 
-Feature Test تولیدشده توسط Scaffolder را حذف می‌کند:
+Feature Test تولیدشده را خاموش می‌کند:
 
 ```bash
 php artisan make:module Product --no-test
 ```
 
-اگر همزمان `--tests` بدهید، چون Option مثبت بعدتر اعمال می‌شود Test ساخته خواهد شد:
+اگر بعد از آن `--tests` هم بدهی، Test دوباره فعال می‌شود:
 
 ```bash
 php artisan make:module Product --no-test --tests
 ```
 
-`--all` و `--full` نیز Test را دوباره فعال می‌کنند.
+`--all` و `--full` هم در انتهای Flow Test را دوباره روشن می‌کنند.

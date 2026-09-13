@@ -5,19 +5,19 @@ lang: fa
 
 # دستور `make:module`
 
-دستور `make:module` نقطه اصلی ورود Laravel Scaffolder است. این دستور لایه‌های لازم برای یک Feature را دور مدل شما تولید می‌کند، بدون اینکه کد پشت Runtime Magic پنهان شود.
+تقریباً همه‌چیز در Laravel Scaffolder از همین دستور شروع می‌شود:
 
 ```bash
 php artisan make:module Product
 ```
 
-نام ماژول با `Str::studly()` نرمال می‌شود و مدل به‌صورت پیش‌فرض در مسیر تنظیم‌شده‌ای مثل `App\Models\Product` جست‌وجو می‌شود.
+Scaffolder نام ماژول را نرمال می‌کند، Model را پیدا می‌کند، Schema را می‌خواند و بر اساس Optionهایی که داده‌ای لایه‌های موردنیاز را می‌سازد.
 
-## چه چیزهایی همیشه ساخته می‌شوند؟
+## در حالت عادی چه چیزهایی ساخته می‌شوند؟
 
-در یک اجرای عادی، Repository و Service پایه اصلی ماژول هستند و همیشه تولید می‌شوند. بقیه لایه‌ها با Config و Optionهای CLI کنترل می‌شوند.
+Repository و Service هسته‌ی اصلی ماژول هستند. بقیه‌ی لایه‌ها از Config و Optionهای CLI می‌آیند.
 
-با تنظیمات پیش‌فرض فعلی پکیج، اجرای ساده‌ی دستور عملاً چنین Stackای می‌سازد:
+با تنظیمات پیش‌فرض فعلی، اجرای ساده‌ی دستور معمولاً این خروجی را می‌دهد:
 
 ```text
 Repository
@@ -31,7 +31,7 @@ Actions
 Feature Test
 ```
 
-دلیل فعال بودن Request و Action این است که `controller_type` پیش‌فرض روی `api` قرار دارد؛ API Mode این دو بخش را خودکار فعال می‌کند.
+چرا Request و Action هم فعال‌اند؟ چون `controller_type` پیش‌فرض روی `api` است و API Mode این دو بخش را هم روشن می‌کند.
 
 ## Signature کامل
 
@@ -59,48 +59,36 @@ make:module {name}
   --force
 ```
 
-برای هر Option یک صفحه مستقل در همین بخش وجود دارد.
+برای هر کدام از این Optionها یک صفحه‌ی جدا در Sidebar داری.
 
-## منابع Schema
+## Schema را از کجا می‌خواند؟
 
-اطلاعات Fieldها برای Validation، DTO، Resource، Relation، Test و Swagger از سه منبع قابل دریافت است:
+Scaffolder سه راه اصلی برای فهمیدن فیلدها دارد:
 
-1. تعریف صریح با `--fields`؛
-2. بررسی Runtime مدل و دیتابیس؛
-3. Parsing مایگریشن.
+1. `--fields` که خودت مستقیم می‌دهی؛
+2. Model و دیتابیس در حال اجرا؛
+3. Migration.
 
-اگر `--fields` معتبر داده شود، همان به‌عنوان منبع صریح Schema استفاده می‌شود. در غیر این صورت اطلاعات Runtime و Migration در صورت امکان با هم Merge می‌شوند.
+اگر `--fields` معتبر باشد، همان منبع اصلی در نظر گرفته می‌شود. در غیر این صورت Scaffolder تا جایی که بتواند اطلاعات Runtime و Migration را کنار هم می‌گذارد.
 
-## بازتولید امن
+## فایل موجود را بی‌اجازه خراب نمی‌کند
 
-فایل موجود بدون اجازه overwrite نمی‌شود. برای بازتولید صریح از `--force` استفاده کنید:
+اگر فایلی از قبل وجود داشته باشد، به‌صورت پیش‌فرض نگه داشته می‌شود. برای بازنویسی باید خودت `--force` بدهی:
 
 ```bash
 php artisan make:module Product --force
 ```
 
 ::: warning
-`--force` عملیات Merge نیست؛ فایل تولیدشده می‌تواند تغییرات دستی شما را جایگزین کند.
+`--force` یعنی بازنویسی، نه Merge. اگر فایل را دستی تغییر داده‌ای، قبلش Diff یا Git status را چک کن.
 :::
 
-## نکته مهم درباره Full Stack
+## یک استثنای مهم درباره `--all`
 
-`--all` و `--full` در انتهای تصمیم‌گیری Command اعمال می‌شوند و Controller، Request، Test، Resource، Provider، Action، Policy و Swagger را دوباره فعال می‌کنند. استثنای مهم DTO است: `--all --no-dto` همچنان DTO را غیرفعال نگه می‌دارد.
-
-## چند نمونه رایج
+`--all` و `--full` در انتهای تصمیم‌گیری Command بیشتر `--no-*`ها را دوباره روشن می‌کنند. ولی `--no-dto` استثناست:
 
 ```bash
-php artisan make:module Product
-php artisan make:module Product --all
 php artisan make:module Product --all --no-dto
 ```
 
-```bash
-php artisan make:module Product --api \
-  --fields="name:string:unique,price:decimal(10,2),is_active:boolean"
-```
-
-```bash
-php artisan make:module Product \
-  --from-migration=database/migrations/2026_01_01_000000_create_products_table.php
-```
+این دستور یک Stack کامل می‌سازد، اما DTO را نمی‌سازد.

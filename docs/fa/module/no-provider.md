@@ -5,19 +5,12 @@ lang: fa
 
 # `--no-provider` / `-np`
 
-Provider ماژول و Binding خودکار Contractها را حذف می‌کند:
+Service Provider مخصوص ماژول را نمی‌سازد:
 
 ```bash
 php artisan make:module Product --no-provider
 ```
 
-Command هشدار می‌دهد که Bindingهای Repository و Service را باید خودتان مدیریت کنید. Service Generator نیز برای این مسیر استفاده از Interface را غیرفعال می‌کند تا کد تولیدی به Binding ثبت‌نشده وابسته نباشد.
+در نتیجه Binding خودکار Repository و Service Contractها هم توسط `ProductServiceProvider` انجام نمی‌شود. اگر Interfaceها را نگه می‌داری، باید Binding را جای دیگری در پروژه ثبت کنی.
 
-برای Binding مرکزی می‌توانید در Provider موجود پروژه بنویسید:
-
-```php
-$this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
-$this->app->bind(ProductServiceInterface::class, ProductService::class);
-```
-
-`--all` و `--full` Provider را دوباره فعال می‌کنند.
+`--all` و `--full` Provider را در انتها دوباره فعال می‌کنند.

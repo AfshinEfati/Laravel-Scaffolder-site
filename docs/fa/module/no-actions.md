@@ -5,16 +5,20 @@ lang: fa
 
 # `--no-actions`
 
-Action Layer را غیرفعال می‌کند:
+Action Layer را خاموش می‌کند:
 
 ```bash
 php artisan make:module Product --no-actions
 ```
 
-این Option مخصوصاً در API Mode مهم است، چون API به‌صورت خودکار Actionها را فعال می‌کند:
+این Option مخصوصاً کنار `--api` کاربرد دارد، چون API Mode به‌صورت پیش‌فرض Actionها را روشن می‌کند:
 
 ```bash
 php artisan make:module Product --api --no-actions
 ```
 
-در Build عادی `--no-actions` حتی Auto-enable شدن API Mode را هم خنثی می‌کند. اما `--all` و `--full` بعدتر اجرا می‌شوند و Actionها را دوباره روشن می‌کنند.
+در این حالت Controller مستقیماً از Service استفاده می‌کند.
+
+::: warning
+`--all` و `--full` در انتهای Flow Actionها را دوباره روشن می‌کنند.
+:::

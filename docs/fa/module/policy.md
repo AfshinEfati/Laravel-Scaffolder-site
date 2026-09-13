@@ -5,13 +5,13 @@ lang: fa
 
 # `--policy`
 
-برای ماژول Policy استاندارد Laravel ایجاد می‌کند:
+برای Model ماژول یک Policy استاندارد Laravel می‌سازد:
 
 ```bash
 php artisan make:module Product --policy
 ```
 
-Skeleton تولیدشده محل پیاده‌سازی Ruleهای واقعی Authorization پروژه است:
+Policy تولیدشده فقط Skeleton است؛ Scaffolder قرار نیست Rule کسب‌وکار پروژه‌ات را حدس بزند. مثلاً خودت می‌توانی چیزی شبیه این را اضافه کنی:
 
 ```php
 public function update(User $user, Product $product): bool
@@ -20,6 +20,4 @@ public function update(User $user, Product $product): bool
 }
 ```
 
-Scaffolder نمی‌تواند Rule کسب‌وکار شما را حدس بزند؛ بنابراین Policy تولیدشده باید با منطق واقعی پروژه تکمیل شود.
-
-در حالت عادی `--no-policy` بعد از `--policy` اعمال می‌شود و می‌تواند آن را خاموش کند. اما `--all` و `--full` در انتها Policy را دوباره فعال می‌کنند.
+در اجرای عادی، `--no-policy` می‌تواند Policy را خاموش کند. اما `--all` و `--full` در مرحله نهایی دوباره Policy را فعال می‌کنند.

@@ -5,32 +5,32 @@ lang: fa
 
 # `--swagger` / `-sg`
 
-مستندات OpenAPI مربوط به همان ماژول را تولید می‌کند:
+این Option Doc مربوط به همان ماژول را می‌سازد:
 
 ```bash
 php artisan make:module Product --swagger
 ```
 
-## حالت Swagger-only
+## فقط Doc را می‌خواهی؟
 
-اگر `--swagger` تنها Option اصلی مربوط به ساخت Stack باشد، Command وارد مسیر Swagger-only می‌شود و Repository/Service/Controller و بقیه لایه‌های عادی را تولید نمی‌کند.
+اگر `--swagger` تنها Option اصلی ساخت Stack باشد، Command وارد حالت Swagger-only می‌شود و Repository، Service، Controller و بقیه‌ی لایه‌ها را دوباره تولید نمی‌کند.
 
 ```bash
 php artisan make:module Product --swagger --force
 ```
 
-این حالت برای Refresh کردن Doc یک ماژول مفید است.
+این حالت برای Refresh کردن Doc یک ماژول بدون دست‌زدن به بقیه فایل‌ها مناسب است.
 
-## همراه با ساخت ماژول
+## همراه ساخت ماژول
 
-اگر Swagger در یک Build عادی فعال باشد، Controller به API Mode می‌رود:
+وقتی Swagger را داخل Build عادی فعال می‌کنی، Controller به API Mode می‌رود:
 
 ```bash
 php artisan make:module Product --api --swagger
 ```
 
-`--all` و `--full` نیز Swagger را فعال می‌کنند.
+`--all` و `--full` هم Swagger را روشن می‌کنند.
 
-::: tip
-این Option با دستور مستقل `swagger:generate` یکی نیست. `--swagger` بخشی از Flow ساخت ماژول است؛ `swagger:generate` Spec سراسری JSON را از Routeها تولید می‌کند.
+::: tip تفاوت با `swagger:generate`
+`--swagger` بخشی از Flow ساخت همان ماژول است. دستور مستقل `swagger:generate` یک Spec سراسری JSON را با بررسی Routeهای پروژه تولید می‌کند. این دو کار یکی نیستند.
 :::

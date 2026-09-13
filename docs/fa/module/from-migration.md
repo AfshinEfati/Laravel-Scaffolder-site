@@ -5,34 +5,32 @@ lang: fa
 
 # `--from-migration` / `-fm`
 
-Migration مشخصی را برای استخراج Schema به Generator معرفی می‌کند:
+با این Option یک Migration مشخص را به‌عنوان منبع Schema معرفی می‌کنی:
 
 ```bash
 php artisan make:module Product \
   --from-migration=database/migrations/2026_01_01_000000_create_products_table.php
 ```
 
-یا:
+نسخه کوتاه:
 
 ```bash
 php artisan make:module Product \
   -fm=database/migrations/2026_01_01_000000_create_products_table.php
 ```
 
-این Option مسیر یا Hint مایگریشن را به Migration Parser می‌دهد.
+## کِی به درد می‌خورد؟
 
-## چه زمانی مفید است؟
+- Model هنوز وجود ندارد؛
+- دیتابیس در محیط فعلی بالا نیست؛
+- Runtime Inspection نتوانسته Columnها را تشخیص بدهد؛
+- یا می‌خواهی دقیقاً یک Migration خاص منبع Metadata باشد.
 
-- Model هنوز ساخته نشده؛
-- دیتابیس در Environment فعلی در دسترس نیست؛
-- Runtime Inspection اطلاعات Columnها را پیدا نمی‌کند؛
-- می‌خواهید Migration مشخصی منبع Metadata باشد.
-
-بدون Model، برای اجرای عادی `make:module` باید `--fields` یا `--from-migration` صریح داشته باشید.
+اگر Model نداری، برای اجرای عادی `make:module` باید حداقل `--fields` یا `--from-migration` داشته باشی.
 
 ```bash
 php artisan make:module InventoryItem --api \
   --from-migration=database/migrations/2026_09_01_120000_create_inventory_items_table.php
 ```
 
-اگر همزمان `--fields` معتبر بدهید، Inline Schema اولویت دارد.
+اگر همزمان `--fields` معتبر هم بدهی، Schema صریح `--fields` اولویت دارد.

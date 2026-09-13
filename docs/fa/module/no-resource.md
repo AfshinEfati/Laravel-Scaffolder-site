@@ -5,18 +5,18 @@ lang: fa
 
 # `--no-resource` / `-nr`
 
-تولید Laravel API Resource را غیرفعال می‌کند:
+API Resource را از خروجی حذف می‌کند:
 
 ```bash
 php artisan make:module Product --no-resource
 ```
 
-Controller Generator نیز از نبود Resource مطلع می‌شود تا کدی تولید نکند که به `ProductResource` ناموجود وابسته باشد.
+Controller تولیدشده در این حالت به‌جای `ProductResource` با داده‌ی خام خروجی کار می‌کند.
 
-این Option برای پروژه‌هایی مناسب است که Transformer یا Serializer اختصاصی دارند.
+اگر Full Stack را فعال کنی، Resource دوباره روشن می‌شود:
 
 ```bash
-php artisan make:module Product --api --no-resource
+php artisan make:module Product --all --no-resource
 ```
 
-`--all` و `--full` Resource را دوباره فعال می‌کنند.
+در Flow فعلی `--all` در انتها برنده می‌شود و Resource ساخته خواهد شد.

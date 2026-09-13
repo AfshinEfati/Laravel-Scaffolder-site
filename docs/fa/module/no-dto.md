@@ -5,20 +5,20 @@ lang: fa
 
 # `--no-dto` / `-nd`
 
-DTO را غیرفعال می‌کند و Data Flow لایه‌های وابسته را به حالت Array-based می‌برد:
+DTO را فقط از لیست فایل‌ها حذف نمی‌کند؛ کل Data Flow لایه‌های وابسته را به حالت Array-based می‌برد:
 
 ```bash
 php artisan make:module Product --no-dto
 ```
 
-Command مقدار `usesDto=false` را به Service، Action و Controller Generator منتقل می‌کند؛ بنابراین فقط فایل DTO حذف نمی‌شود، Signature کد تولیدی نیز متناسب می‌شود.
+Scaffolder مقدار `usesDto=false` را به Service، Action و Controller Generator می‌دهد تا Signature و Payload کد تولیدشده هم با نبود DTO هماهنگ باشد.
 
 ## استثنای مهم Full Stack
 
-برخلاف بیشتر `--no-*`ها، این Option با `--all` و `--full` همچنان مؤثر می‌ماند:
+`--no-dto` تنها Disable مهمی است که کنار `--all` و `--full` هم باقی می‌ماند:
 
 ```bash
 php artisan make:module Product --all --no-dto
 ```
 
-در نتیجه Stack کامل بدون `ProductDTO` ساخته می‌شود.
+نتیجه: Full Stack کامل، بدون `ProductDTO`.

@@ -5,18 +5,12 @@ lang: fa
 
 # `--no-swagger`
 
-Swagger/OpenAPI مربوط به Flow `make:module` را غیرفعال می‌کند:
-
-```bash
-php artisan make:module Product --no-swagger
-```
-
-در Build عادی این Option بعد از `--swagger` اعمال می‌شود، بنابراین اگر هر دو باشند، Swagger ساخته نمی‌شود:
+Swagger Doc ماژول را در Build معمولی خاموش می‌کند:
 
 ```bash
 php artisan make:module Product --swagger --no-swagger
 ```
 
-`--all` و `--full` بعدتر Swagger را دوباره فعال می‌کنند.
+در این حالت Doc ماژول ساخته نمی‌شود.
 
-این Option روی دستورهای مستقل `swagger:init`، `swagger:generate`، `swagger:ui` و `swagger:config` اثری ندارد.
+اگر `--all` یا `--full` هم داشته باشی، Full Stack در انتهای Flow Swagger را دوباره فعال می‌کند.

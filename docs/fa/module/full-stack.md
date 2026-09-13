@@ -5,6 +5,8 @@ lang: fa
 
 # `--all` / `--full`
 
+اگر می‌خواهی تقریباً تمام قابلیت‌های Generator برای یک ماژول روشن شوند، از `--all` یا `--full` استفاده کن:
+
 ```bash
 php artisan make:module Product --all
 ```
@@ -17,7 +19,7 @@ php artisan make:module Product --full
 php artisan make:module Product -f
 ```
 
-## مواردی که صریحاً فعال می‌شوند
+## چه چیزهایی روشن می‌شوند؟
 
 ```text
 Repository          همیشه
@@ -33,42 +35,16 @@ Swagger             بله
 Controller type     API
 ```
 
-DTO استثناست: با Config پیش‌فرض فعال است، اما Full Stack مقدار DTO را اجباراً Reset نمی‌کند. بنابراین:
+## DTO یک استثناست
+
+Full Stack بیشتر `--no-*`ها را در انتها Override می‌کند، ولی `--no-dto` را نه:
 
 ```bash
 php artisan make:module Product --all --no-dto
 ```
 
-Stack کامل بدون DTO می‌سازد.
+این دستور همه‌ی لایه‌های Full Stack را می‌سازد، اما `ProductDTO` تولید نمی‌شود و Service/Action/Controller هم برای Payload آرایه‌ای تنظیم می‌شوند.
 
-## خروجی معمول
-
-```text
-app/
-├── Actions/
-│   ├── BaseAction.php
-│   └── Product/
-│       ├── ListProductAction.php
-│       ├── ShowProductAction.php
-│       ├── CreateProductAction.php
-│       ├── UpdateProductAction.php
-│       ├── DeleteProductAction.php
-│       └── ListWithRelationsProductAction.php
-├── DTOs/ProductDTO.php
-├── Docs/ProductDoc.php
-├── Http/
-│   ├── Controllers/Api/V1/ProductController.php
-│   ├── Requests/Product/StoreProductRequest.php
-│   ├── Requests/Product/UpdateProductRequest.php
-│   └── Resources/ProductResource.php
-├── Policies/ProductPolicy.php
-├── Providers/ProductServiceProvider.php
-├── Repositories/Contracts/ProductRepositoryInterface.php
-├── Repositories/Eloquent/ProductRepository.php
-├── Services/Contracts/ProductServiceInterface.php
-└── Services/ProductService.php
-
-tests/Feature/ProductCrudTest.php
-```
-
-Full Stack در انتها Controller/Request/Test/Resource/Provider/Action/Policy/Swagger را دوباره فعال می‌کند؛ `--no-dto` استثنای مهم است.
+::: warning
+اگر قصد داری یکی از بخش‌های Full Stack را با `--no-*` خاموش کنی، اول صفحه همان Option را ببین. به‌جز DTO، بیشتر Disableها در انتهای Flow دوباره فعال می‌شوند.
+:::
