@@ -5,13 +5,24 @@ lang: fa
 
 # Provider و Binding
 
-Module Provider، Contractها را به Concrete Repository و Service متصل می‌کند:
+Provider Generator فایل زیر را می‌سازد:
 
-```php
-$this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
-$this->app->bind(ProductServiceInterface::class, ProductService::class);
+```text
+app/Providers/ProductServiceProvider.php
 ```
 
-Generator همچنین تلاش می‌کند Provider را متناسب با ساختار نسخه‌ی Laravel ثبت کند.
+و Bindingهای Repository/Service Contract به Concrete را ثبت می‌کند.
 
-اگر `--no-provider` استفاده شود، Bindingها را باید دستی در Provider موجود پروژه ثبت کنی.
+## Registration نسخه-aware
+
+اگر `bootstrap/providers.php` وجود داشته باشد، Provider به Array بازگشتی همان فایل اضافه می‌شود. در Layout قدیمی‌تر، Generator `config/app.php` را بررسی می‌کند.
+
+قبل از Insert، FQCN را جست‌وجو می‌کند تا Registration Duplicate نشود.
+
+## حذف Provider
+
+```bash
+php artisan make:module Product --no-provider
+```
+
+در این حالت Binding خودکار مسئولیت خود پروژه است و Service Generator به Concrete Repository تغییر می‌کند.

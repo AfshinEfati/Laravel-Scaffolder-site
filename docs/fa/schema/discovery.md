@@ -1,22 +1,36 @@
 ---
-title: کشف Schema
+title: روش کشف فیلدها
 lang: fa
 ---
 
-# روش کشف فیلدها
+# روش کشف Schema
 
-Command سه منبع اصلی برای Metadata دارد.
+Metadata فیلدها برای DTO، Validation، Resource، Relation، Feature Test و Swagger استفاده می‌شود.
 
-## ۱. `--fields`
+## ترتیب منابع
 
-تعریف صریح CLI بالاترین اولویت را دارد و دست‌نخورده نگه داشته می‌شود.
+### ۱. `--fields` صریح
 
-## ۲. Runtime Model / Database
+اگر Inline Schema معتبر وجود داشته باشد، همان منبع حقیقت در نظر گرفته می‌شود:
 
-اگر `App\Models\Product` وجود داشته باشد و Database در دسترس باشد، `RuntimeFieldParser` می‌تواند Column و Relationها را بررسی کند.
+```bash
+php artisan make:module Product --fields="name:string,price:numeric"
+```
 
-## ۳. Migration
+Runtime/Migration روی آن Merge نمی‌شوند.
 
-Command Migration مرتبط را پیدا می‌کند یا Migration داده‌شده با `--from-migration` را Parse می‌کند.
+### ۲. Runtime Model/Database
 
-اگر Runtime و Migration هر دو داده داشته باشند، Field و Relationها Merge می‌شوند و در صورت وجود `$fillable` با Model هماهنگ می‌شوند.
+اگر Eloquent Model معتبر وجود داشته باشد، `RuntimeFieldParser` Table و Fieldها را بررسی می‌کند و Fillable مدل هم برای هماهنگ کردن Metadata استفاده می‌شود.
+
+### ۳. Migration
+
+در نبود Inline Schema، Metadata مایگریشن با Runtime Metadata Merge می‌شود. می‌توانید با `--from-migration` فایل مشخص بدهید یا اجازه دهید Fallback خودکار انجام شود.
+
+## Relationها
+
+Metadata Relationهای Runtime و Migration نیز Merge می‌شوند و Foreign Keyها می‌توانند Relation Hint ایجاد کنند.
+
+## Fail زودهنگام
+
+Build عادی بدون Model، بدون `--fields` و بدون Migration Hint صریح Fail می‌شود تا Generator Schema خیالی تولید نکند. Swagger-only از این قاعده مستثناست.

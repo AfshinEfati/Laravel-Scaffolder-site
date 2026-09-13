@@ -5,11 +5,24 @@ lang: fa
 
 # Feature Testها
 
-Generator یک نقطه‌ی شروع واقعی برای تست Endpointهای CRUD می‌سازد و در صورت داشتن Metadata از Schema برای Payload و Assertionها کمک می‌گیرد.
+Test Generator یک CRUD Feature Test می‌سازد:
 
-```bash
-php artisan make:module Product --tests
-php artisan test --filter=ProductTest
+```text
+tests/Feature/ProductCrudTest.php
 ```
 
-Test تولیدشده جای تست رفتار Business را نمی‌گیرد؛ Authorization، Edge Caseها و Domain Invariantهای خود پروژه را به آن اضافه کن.
+نام Class نیز `ProductCrudTest` است.
+
+Field Metadata برای Boolean، Integer/FK، Numeric، JSON، Date و UUID Normalize و داخل Test Scaffold استفاده می‌شود تا Payloadها متناسب با Schema باشند.
+
+Controller Subfolder هم در Namespace تست لحاظ می‌شود.
+
+```bash
+php artisan test --filter=ProductCrudTest
+```
+
+مسیر Root از `tests.feature` در Config می‌آید.
+
+::: warning
+Test تولیدی نقطه شروع است؛ Authorization، Validation Failure، Domain Invariant و Integration Caseهای پروژه را خودتان اضافه کنید.
+:::

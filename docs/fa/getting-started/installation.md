@@ -5,13 +5,21 @@ lang: fa
 
 # نصب
 
-پکیج را با Composer نصب کن:
+Laravel Scaffolder را با Composer نصب کنید:
 
 ```bash
 composer require efati/laravel-scaffolder
 ```
 
-Package Discovery لاراول به‌صورت خودکار `Efati\ModuleGenerator\ModuleGeneratorServiceProvider` را ثبت می‌کند و در حالت معمول نیازی به ثبت دستی Provider نیست.
+Laravel با Package Discovery، `Efati\ModuleGenerator\ModuleGeneratorServiceProvider` را خودکار Register می‌کند و در حالت معمول نیازی به ثبت دستی Provider نیست.
+
+## نیازمندی‌ها
+
+```text
+PHP      8.1, 8.2, 8.3, 8.4, 8.5
+Laravel  10, 11, 12, 13
+Composer 2.x پیشنهاد می‌شود
+```
 
 ## Publish فایل‌های پایه
 
@@ -19,22 +27,34 @@ Package Discovery لاراول به‌صورت خودکار `Efati\ModuleGenerat
 php artisan vendor:publish --tag=module-generator
 ```
 
-این دستور می‌تواند فایل‌های زیر را داخل پروژه ایجاد کند:
+فایل‌های زیر وارد پروژه می‌شوند:
 
 ```text
+config/module-generator.php
 app/Repositories/Eloquent/BaseRepository.php
 app/Repositories/Contracts/BaseRepositoryInterface.php
 app/Repositories/Criteria/CriteriaInterface.php
 app/Services/BaseService.php
 app/Services/Contracts/BaseServiceInterface.php
 app/Helpers/ApiResponseHelper.php
-config/module-generator.php
 ```
 
-برای Publish کردن Stubهای Generator:
+## Publish Stubهای قابل شخصی‌سازی
 
 ```bash
 php artisan vendor:publish --tag=module-generator-stubs
 ```
 
-قبل از تغییر Templateها صفحه‌ی [Publish و Stub سفارشی](/fa/getting-started/publishing) را ببین.
+Stubها در این مسیر قرار می‌گیرند:
+
+```text
+resources/stubs/module-generator/
+```
+
+## بررسی نصب
+
+```bash
+php artisan list | grep -E 'make:module|swagger:'
+```
+
+باید `make:module` و دستورهای `swagger:init`، `swagger:generate`، `swagger:ui` و `swagger:config` را ببینید. `make:swagger` قدیمی نیز برای Compatibility ثبت شده است.

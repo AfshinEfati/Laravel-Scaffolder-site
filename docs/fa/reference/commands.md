@@ -5,20 +5,45 @@ lang: fa
 
 # فهرست دستورات
 
-| دستور | کاربرد |
-| --- | --- |
-| `make:module {name}` | ساخت Stack لایه‌ای Feature |
-| `swagger:init` | آماده‌سازی Swagger UI مستقل |
-| `swagger:generate` | ساخت OpenAPI JSON از Routeها |
-| `swagger:ui` | اجرای Swagger UI مستقل |
-| `swagger:config` | دیدن/تغییر تنظیمات Swagger |
-| `make:swagger` | Route Scanner قدیمی و Deprecated |
+## `make:module`
 
-نمونه:
-
-```bash
-php artisan make:module Product --all
-php artisan swagger:init
-php artisan swagger:generate --title="Store API"
-php artisan swagger:ui --refresh
+```text
+make:module {name}
+  -c|--controller=
+  --api
+  -r|--requests
+  -t|--tests
+  -nc|--no-controller
+  -nr|--no-resource
+  -nd|--no-dto
+  -nt|--no-test
+  -np|--no-provider
+  --actions
+  --no-actions
+  --policy
+  --no-policy
+  -sg|--swagger
+  --no-swagger
+  -a|--all
+  -f|--full
+  -fm|--from-migration=
+  --fields=
+  --force
 ```
+
+## Swagger جدید
+
+```text
+swagger:init --force
+swagger:generate --output= --title= --version= --host=
+swagger:ui --port=8000 --host=localhost --refresh
+swagger:config --show --export-env --theme= --primary-color= --secondary-color= --title= --reset
+```
+
+## Deprecated
+
+```text
+make:swagger --path= --controller= -f|--force --output=
+```
+
+برای پروژه جدید `swagger:generate` را ترجیح دهید.

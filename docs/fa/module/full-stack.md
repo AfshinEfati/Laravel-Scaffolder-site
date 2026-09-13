@@ -5,8 +5,6 @@ lang: fa
 
 # `--all` / `--full`
 
-Stack کامل ماژول را فعال می‌کند:
-
 ```bash
 php artisan make:module Product --all
 ```
@@ -19,9 +17,7 @@ php artisan make:module Product --full
 php artisan make:module Product -f
 ```
 
-`--all` در کد به Full Stack تبدیل می‌شود، بنابراین هر دو رفتار یکسانی دارند.
-
-## بخش‌هایی که Full Stack صریحاً فعال می‌کند
+## مواردی که صریحاً فعال می‌شوند
 
 ```text
 Repository          همیشه
@@ -37,24 +33,42 @@ Swagger             بله
 Controller type     API
 ```
 
-### استثنای DTO
-
-Full Stack مقدار DTO را به اجبار `true` نمی‌کند. با Config پیش‌فرض DTO فعال است و `--all` معمولی DTO می‌سازد؛ اما این دستور DTO را خاموش نگه می‌دارد:
+DTO استثناست: با Config پیش‌فرض فعال است، اما Full Stack مقدار DTO را اجباراً Reset نمی‌کند. بنابراین:
 
 ```bash
 php artisan make:module Product --all --no-dto
 ```
 
-در این حالت لایه‌های وابسته از Data Array استفاده می‌کنند.
+Stack کامل بدون DTO می‌سازد.
 
-## اولویت Optionها
+## خروجی معمول
 
-Full Stack در انتهای Flow اعمال می‌شود؛ بنابراین Optionهایی مثل `--no-actions`، `--no-policy`، `--no-provider`، `--no-resource`، `--no-controller`، `--no-test` و `--no-swagger` را دوباره فعال می‌کند.
+```text
+app/
+├── Actions/
+│   ├── BaseAction.php
+│   └── Product/
+│       ├── ListProductAction.php
+│       ├── ShowProductAction.php
+│       ├── CreateProductAction.php
+│       ├── UpdateProductAction.php
+│       ├── DeleteProductAction.php
+│       └── ListWithRelationsProductAction.php
+├── DTOs/ProductDTO.php
+├── Docs/ProductDoc.php
+├── Http/
+│   ├── Controllers/Api/V1/ProductController.php
+│   ├── Requests/Product/StoreProductRequest.php
+│   ├── Requests/Product/UpdateProductRequest.php
+│   └── Resources/ProductResource.php
+├── Policies/ProductPolicy.php
+├── Providers/ProductServiceProvider.php
+├── Repositories/Contracts/ProductRepositoryInterface.php
+├── Repositories/Eloquent/ProductRepository.php
+├── Services/Contracts/ProductServiceInterface.php
+└── Services/ProductService.php
 
-```bash
-php artisan make:module Product --all --no-actions
+tests/Feature/ProductCrudTest.php
 ```
 
-Action همچنان ساخته می‌شود.
-
-تنها استثنای مهم این مجموعه `--no-dto` است.
+Full Stack در انتها Controller/Request/Test/Resource/Provider/Action/Policy/Swagger را دوباره فعال می‌کند؛ `--no-dto` استثنای مهم است.

@@ -3,29 +3,51 @@ title: سینتکس --fields
 lang: fa
 ---
 
-# سینتکس Inline Field
+# سینتکس `--fields`
 
-تعریف‌ها با کاما از هم جدا می‌شوند:
+```bash
+php artisan make:module Product \
+  --fields="name:string:unique,price:decimal(10,2),is_active:boolean"
+```
+
+فرمت هر فیلد:
 
 ```text
 name:type[:modifier[:modifier...]]
 ```
 
-مثال:
+Fieldها با کاما جدا می‌شوند؛ Parser عمق پرانتز را نگه می‌دارد، بنابراین کامای `decimal(10,2)` Field را نصف نمی‌کند.
 
-```bash
-php artisan make:module Product --api \
-  --fields="name:string:unique,description:text:nullable,price:decimal(10,2),is_active:boolean,user_id:integer:fk=users.id"
-```
-
-Modifierها می‌توانند با `:` یا `|` و در بخش Modifier با فاصله جدا شوند:
+Modifierها می‌توانند با `:`، `|` یا فاصله جدا شوند:
 
 ```text
-name:string:unique
-bio:text:nullable
-email:email|required|unique
-user_id:integer:fk=users.id
-category_id:integer:foreign(categories.id)
+email:email:unique
+website:url|nullable
+user_id:integer fk=users.id
 ```
 
-Parser Parenthesis را در نظر می‌گیرد تا `decimal(10,2)` اشتباه Split نشود.
+Nullable:
+
+```text
+nullable | null | optional
+```
+
+Required:
+
+```text
+required | notnull | not-null
+```
+
+Unique:
+
+```text
+unique | uniq
+```
+
+Foreign:
+
+```text
+fk=users.id
+foreign=users.id
+references=users.id
+```

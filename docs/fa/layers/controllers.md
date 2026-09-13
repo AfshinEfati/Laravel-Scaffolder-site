@@ -5,18 +5,35 @@ lang: fa
 
 # Controllerها
 
-Controller به سبک API یا Web ساخته می‌شود و می‌تواند Subfolder داشته باشد:
+Controller Generator براساس API/Web Mode و لایه‌های فعال، کد متفاوت تولید می‌کند.
 
-```bash
-php artisan make:module Product --api --controller=Admin
+API پیش‌فرض:
+
+```text
+app/Http/Controllers/Api/V1/ProductController.php
 ```
 
-بسته به Optionها، API Controller می‌تواند Form Request، DTO، Resource، Action و Swagger Annotation را استفاده کند.
+Web پیش‌فرض:
 
-```php
-public function store(StoreProductRequest $request)
-{
-    $dto = ProductDTO::fromArray($request->validated());
-    return new ProductResource(($this->createProduct)($dto));
-}
+```text
+app/Http/Controllers/ProductController.php
 ```
+
+`--controller=Admin` یک Subfolder به Root مربوطه اضافه می‌کند.
+
+## API Controller
+
+Generator با توجه به Optionها این بخش‌ها را Wiring می‌کند:
+
+- Model و Service یا Actionها؛
+- Store/Update Form Request؛
+- DTO؛
+- API Resource؛
+- `ApiResponseHelper`؛
+- Relation Loading؛
+- `controller_middleware`؛
+- Swagger ماژول.
+
+اگر Request خاموش باشد `Illuminate\Http\Request` استفاده می‌شود؛ اگر DTO خاموش باشد Array ارسال می‌شود؛ اگر Resource خاموش باشد Response Helper مستقیماً Data را برمی‌گرداند.
+
+با Action Mode، Controller به Operation Classها متکی می‌شود نه Service مستقیم برای هر CRUD.

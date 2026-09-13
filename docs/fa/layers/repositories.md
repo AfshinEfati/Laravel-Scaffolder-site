@@ -5,23 +5,38 @@ lang: fa
 
 # Repositoryها
 
-هر Module یک Contract و یک پیاده‌سازی Eloquent برای Repository دارد:
+هر اجرای عادی `make:module` یک Contract و یک Eloquent Repository تولید می‌کند:
 
 ```text
 app/Repositories/Contracts/ProductRepositoryInterface.php
 app/Repositories/Eloquent/ProductRepository.php
 ```
 
-Concrete Repository از `BaseRepository` منتشرشده ارث می‌برد و محل استاندارد Queryهای مخصوص Model است.
+Contract از `BaseRepositoryInterface` و Concrete از `BaseRepository` استفاده می‌کند.
 
-```php
-final class ProductRepository extends BaseRepository implements ProductRepositoryInterface
-{
-    public function __construct(Product $model)
-    {
-        parent::__construct($model);
-    }
-}
+## BaseRepository
+
+بعد از Publish:
+
+```bash
+php artisan vendor:publish --tag=module-generator
 ```
 
-برای Filterهای قابل استفاده مجدد، [Criteria Pattern](/fa/utilities/criteria) را ببین.
+BaseRepository وارد خود Application می‌شود و متدهایی مثل این‌ها دارد:
+
+```text
+getAll()
+find(id)
+findDynamic(...)
+getByDynamic(...)
+store(data)
+update(id, data)
+delete(id)
+pushCriteria(...)
+popCriteria(...)
+skipCriteria(...)
+```
+
+`findDynamic` و `getByDynamic` شرط‌های Where، Eager Load، In/NotIn، Between، Null، OR Variantها و Raw Condition را پشتیبانی می‌کنند.
+
+Criteriaهای فعال قبل از Readها روی Builder اعمال می‌شوند.

@@ -5,35 +5,63 @@ lang: fa
 
 # مرجع پیکربندی
 
-## مسیرهای Generation
+Config کامل در `config/module-generator.php` Publish می‌شود.
 
-`paths` مسیر Repository Contract/Concrete، Service، DTO، Provider، Controller API/Web، Resource، Form Request، Action و Doc را تعیین می‌کند. مسیر Test در `tests.feature` است.
+## کلیدهای Root
 
-## Defaultهای Module
+| کلید | کاربرد |
+| --- | --- |
+| `base_namespace` | Root Namespace کلاس‌های Application |
+| `paths` | مسیر لایه‌های تولیدشده |
+| `tests.feature` | مسیر Feature Test |
+| `defaults` | Defaultهای `make:module` |
+| `swagger` | UI، Spec، Server و Security |
+| `logging_channel` | Channel لاگ Infrastructure |
+
+## Pathها
 
 ```text
-with_controller
-with_form_requests
-with_unit_test
-with_resource
-with_dto
-with_provider
-with_actions
-controller_middleware
-controller_type
+paths.repository.eloquent
+paths.repository.contracts
+paths.service.concretes
+paths.service.contracts
+paths.dto
+paths.provider
+paths.controller.api
+paths.controller.web
+paths.resource
+paths.form_request
+paths.actions
+paths.docs
 ```
+
+## Defaultها
+
+```text
+defaults.with_controller
+defaults.with_form_requests
+defaults.with_unit_test
+defaults.with_resource
+defaults.with_dto
+defaults.with_provider
+defaults.with_actions
+defaults.controller_middleware
+defaults.controller_type
+```
+
+`controller_type` پیش‌فرض `api` است.
 
 ## Swagger
 
 ```text
-theme
-colors.*
-fonts.*
-dark_mode.enabled/default/persist
-display.title/description/show_models/show_examples/persist_auth
-server.host/port
-spec.path/filename/secure
-security.auth_middleware/default/secure_spec/schemes
+swagger.theme
+swagger.colors.*
+swagger.fonts.*
+swagger.dark_mode.*
+swagger.display.*
+swagger.server.*
+swagger.spec.*
+swagger.security.*
 ```
 
-بیشتر تنظیمات Swagger ENV متناظر `SWAGGER_*` دارند. هنگام Upgrade، Config خود نسخه‌ی نصب‌شده Source of Truth است.
+CLI Optionها روی Config اعمال می‌شوند و بعضی از آنها رفتار ضمنی دارند؛ API Mode نمونه واضح آن است.

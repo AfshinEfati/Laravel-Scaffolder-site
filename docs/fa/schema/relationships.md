@@ -3,20 +3,25 @@ title: Relationها
 lang: fa
 ---
 
-# Relationها
+# تشخیص Relationها
 
-پکیج می‌تواند از Foreign Keyهای Migration و بررسی Runtime Model اطلاعات Relation استخراج کند و آن را در Resource، Action و سایر Generatorهای Schema-aware استفاده کند.
+Relation Metadata کنار Fieldها نگه داشته می‌شود تا Resource، Action، Swagger و Generatorهای دیگر در صورت امکان خروجی Relation-aware بسازند.
 
-Migration:
-
-```php
-$table->foreignId('user_id')->constrained()->cascadeOnDelete();
-```
-
-یا Inline:
+## Foreign Key صریح
 
 ```bash
---fields="user_id:integer:fk=users.id"
+php artisan make:module Post \
+  --fields="title:string,user_id:integer:fk=users.id"
 ```
 
-هر دو Metadata پایه‌ی ارتباط با `users.id` را فراهم می‌کنند. Runtime parsing در صورت امکان اطلاعات غنی‌تری از Relationهای Eloquent اضافه می‌کند.
+Table/Column مرجع ثبت می‌شود.
+
+## Runtime و Migration
+
+بدون `--fields`، Relation می‌تواند از Runtime Inspection یا Migration Parsing به‌دست بیاید و این منابع با هم Merge می‌شوند.
+
+## Resource
+
+Relationهای تشخیص‌داده‌شده با `whenLoaded()` Serialize می‌شوند تا صرفاً وجود Relation باعث Query ناخواسته نشود.
+
+Schema Inference ساختار فنی Relation را تشخیص می‌دهد اما Business Semantic، Scope یا Ownership پروژه را نمی‌تواند حدس بزند؛ خروجی را بعد از Generation بازبینی کنید.

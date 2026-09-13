@@ -5,20 +5,23 @@ lang: fa
 
 # Policyها
 
-Policy در حالت معمول Opt-in است:
-
 ```bash
 php artisan make:module Product --policy
 ```
 
-Skeleton قابلیت‌های استاندارد Laravel را می‌سازد:
+فایل زیر را می‌سازد:
 
-```php
-public function viewAny(User $user): bool { /* ... */ }
-public function view(User $user, Product $product): bool { /* ... */ }
-public function create(User $user): bool { /* ... */ }
-public function update(User $user, Product $product): bool { /* ... */ }
-public function delete(User $user, Product $product): bool { /* ... */ }
+```text
+app/Policies/ProductPolicy.php
 ```
 
-منطق واقعی Authorization را متناسب با پروژه تکمیل کن.
+Policy تولیدشده Skeleton Authorization است و Scaffolder نمی‌تواند Ownership، Role یا Rule کسب‌وکار پروژه را حدس بزند.
+
+```php
+public function update(User $user, Product $product): bool
+{
+    return $user->id === $product->owner_id;
+}
+```
+
+بعد از Generation Ruleهای Placeholder را با منطق واقعی جایگزین کنید.

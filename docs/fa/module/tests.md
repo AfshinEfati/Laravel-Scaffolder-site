@@ -5,38 +5,22 @@ lang: fa
 
 # `--tests` / `-t`
 
-Feature Test را برای ماژول به‌صورت صریح فعال می‌کند:
+Feature Test را به‌صورت صریح فعال می‌کند:
 
 ```bash
 php artisan make:module Product --tests
 ```
 
-مسیر پیش‌فرض از Config می‌آید:
-
-```php
-'tests' => [
-    'feature' => 'tests/Feature',
-],
-```
-
-بنابراین خروجی معمول:
+خروجی پیش‌فرض:
 
 ```text
-tests/Feature/ProductTest.php
+tests/Feature/ProductCrudTest.php
 ```
 
-Test Generator اطلاعات Fieldها را نیز دریافت می‌کند تا Payload و Assertion اولیه از Schema قابل استفاده‌تری ساخته شود.
+Class تولیدشده `ProductCrudTest` است و Schema Metadata برای ساخت CRUD Payload اولیه در آن استفاده می‌شود.
 
 ```bash
-php artisan test --filter=ProductTest
+php artisan test --filter=ProductCrudTest
 ```
 
-## اولویت با `--no-test`
-
-`--tests` بعد از `--no-test` بررسی می‌شود؛ اگر هر دو را بدهید، Test ساخته می‌شود:
-
-```bash
-php artisan make:module Product --no-test --tests
-```
-
-`--all` و `--full` نیز Test را فعال می‌کنند.
+اگر `--no-test` و `--tests` همزمان باشند، `--tests` بعدتر اعمال می‌شود و Test ساخته می‌شود. Full Stack نیز Test را فعال می‌کند.

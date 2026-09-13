@@ -1,28 +1,83 @@
 ---
-title: تاریخ جلالی و Goli
+title: تاریخ جلالی / Goli
 lang: fa
 ---
 
-# تاریخ جلالی / Goli
+# تاریخ جلالی با Goli
 
-پکیج ابزار تاریخ جلالی `Goli`، Wrapper سازگار `Verta`، Trait به نام `HasGoliDates` و Cast به نام `GoliDateCast` دارد.
+`Goli` Utility داخلی پکیج برای تبدیل جلالی/میلادی، Parse، ارقام فارسی، Format، Carbon، `diffForHumans` و Eloquent Cast است.
 
-Helper:
+## Helperها
 
 ```php
 $now = goli();
-$date = goli('2026-03-21');
+$date = goli_date('2026-09-13 12:00:00');
 ```
 
-استفاده از Cast در Model:
+هر دو `Efati\ModuleGenerator\Support\Goli` برمی‌گردانند.
+
+## ساخت و Parse
 
 ```php
+use Efati\ModuleGenerator\Support\Goli;
+
+$now = Goli::now('Asia/Tehran');
+$gregorian = Goli::parse('2026-09-13 12:00:00');
+$jalali = Goli::parseGoli('1405-06-22 12:00:00');
+$created = Goli::create(1405, 6, 22, 12, 0, 0);
+```
+
+`parseGoli` ارقام فارسی/عربی را نیز Normalize می‌کند.
+
+## Format
+
+```php
+$date->toGoliDateString();
+$date->toGoliDateTimeString();
+$date->format('Y/m/d');
+$date->format('Y/m/d', true); // ارقام فارسی
+$date->formatGregorian('Y-m-d H:i:s');
+```
+
+## Carbon و عملیات زمانی
+
+```php
+$carbon = $date->toCarbon();
+$date->addDays(2)->subDays(1);
+$date->timezone('UTC');
+$date->diffForHumans(null, true);
+```
+
+Methodهای ناشناخته به Carbon داخلی Forward می‌شوند و اگر نتیجه Carbon باشد دوباره داخل Goli Wrap می‌شود.
+
+## Eloquent Cast
+
+```php
+use Efati\ModuleGenerator\Casts\GoliDateCast;
+
 protected function casts(): array
 {
-    return [
-        'published_at' => \Efati\ModuleGenerator\Casts\GoliDateCast::class,
-    ];
+    return ['published_at' => GoliDateCast::class];
 }
 ```
 
-برای Storage دیتابیس همچنان از Format استاندارد مناسب Database استفاده کن و Goli را برای رفتار/نمایش جلالی به‌کار ببر.
+Read یک Goli برمی‌گرداند و Write مقدار را با Date Format مدل به Gregorian ذخیره می‌کند.
+
+## Trait `HasGoliDates`
+
+```php
+use Efati\ModuleGenerator\Support\HasGoliDates;
+
+class Article extends Model
+{
+    use HasGoliDates;
+
+    protected array $goliDates = ['published_at', 'expires_at'];
+}
+```
+
+برای افزودن Cast در Runtime:
+
+```php
+$article->addGoliDateCast('reviewed_at');
+```

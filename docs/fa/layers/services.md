@@ -5,17 +5,38 @@ lang: fa
 
 # Serviceها
 
-Service Layer عملیات Application/Business را بالای Repository هماهنگ می‌کند.
+هر ماژول عادی Service Contract و Concrete Service دارد:
 
 ```text
 app/Services/Contracts/ProductServiceInterface.php
 app/Services/ProductService.php
 ```
 
-وقتی Provider فعال است، Contract و Concrete Service Binding می‌شوند. با DTO فعال، Signatureها بر اساس DTO ساخته می‌شوند و بدون DTO از Array استفاده می‌کنند.
+Concrete از `BaseService` Publish‌شده Extend می‌کند.
 
-```php
-$product = $productService->create($dto);
+## عملیات پایه
+
+```text
+index()
+show(id)
+store(payload)
+update(id, payload)
+destroy(id)
+findDynamic(...)
+getByDynamic(...)
+repository()
 ```
 
-Query و Persistence را در Repository نگه دار و Service را برای هماهنگی رفتار Application استفاده کن.
+BaseService Persistence را به Repository Delegates می‌کند.
+
+## DTO
+
+در حالت DTO، Service `ProductDTO|array` را می‌پذیرد و DTO را با `toArray()` Normalize می‌کند.
+
+```bash
+php artisan make:module Product --no-dto
+```
+
+در حالت بدون DTO، Store/Update روی Array-based data تولید می‌شوند.
+
+در حالت معمول Service به `ProductRepositoryInterface` وابسته است؛ با `--no-provider` برای جلوگیری از وابستگی به Binding ثبت‌نشده، Concrete Repository استفاده می‌شود.

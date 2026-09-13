@@ -5,26 +5,54 @@ lang: fa
 
 # پیکربندی
 
-برای داشتن Config پروژه‌ای:
+Config را Publish کنید:
 
 ```bash
 php artisan vendor:publish --tag=module-generator
 ```
 
-ساختار اصلی فایل:
+`config/module-generator.php` Namespace، مسیرهای خروجی، Defaultهای Command، Swagger UI و Logging Channel را کنترل می‌کند.
+
+## Namespace پایه
 
 ```php
-return [
-    'base_namespace' => 'App',
-    'paths' => [/* مسیر فایل‌های تولیدی */],
-    'tests' => ['feature' => 'tests/Feature'],
-    'defaults' => [/* رفتار make:module */],
-    'swagger' => [/* ظاهر، Spec و Security */],
-    'logging_channel' => env('MODULE_GENERATOR_LOG_CHANNEL'),
-];
+'base_namespace' => 'App',
 ```
 
-Default فعلی Controller، Feature Test، Resource، DTO و Provider را روشن دارد و `controller_type` روی `api` است؛ پس یک `make:module` ساده هم از رفتار API استفاده می‌کند.
+Modelها به‌صورت پیش‌فرض زیر `{base_namespace}\Models` جست‌وجو می‌شوند.
+
+## مسیرها
+
+```php
+'paths' => [
+    'repository' => [
+        'eloquent' => 'Repositories/Eloquent',
+        'contracts' => 'Repositories/Contracts',
+    ],
+    'service' => [
+        'concretes' => 'Services',
+        'contracts' => 'Services/Contracts',
+    ],
+    'dto' => 'DTOs',
+    'provider' => 'Providers',
+    'controller' => [
+        'api' => 'Http/Controllers/Api/V1',
+        'web' => 'Http/Controllers',
+    ],
+    'resource' => 'Http/Resources',
+    'form_request' => 'Http/Requests',
+    'actions' => 'Actions',
+    'docs' => 'Docs',
+],
+```
+
+Test Path:
+
+```php
+'tests' => ['feature' => 'tests/Feature'],
+```
+
+## Defaultهای `make:module`
 
 ```php
 'defaults' => [
@@ -40,4 +68,16 @@ Default فعلی Controller، Feature Test، Resource، DTO و Provider را ر�
 ],
 ```
 
-Flagهای CLI از Config اولویت بالاتری دارند؛ البته صفحه‌ی `--all` را برای ترتیب اجرای Full Stack هم ببین.
+CLI Optionها روی این مقادیر اعمال می‌شوند. API Mode علاوه بر `controller_type`، Request و Action را هم فعال می‌کند مگر Action صریحاً خاموش شود.
+
+## Swagger
+
+بخش `swagger` شامل Theme، Color، Font، Dark Mode، Display، Host/Port، Spec Path و Security Schemeهاست.
+
+## Logging
+
+```php
+'logging_channel' => env('MODULE_GENERATOR_LOG_CHANNEL'),
+```
+
+برای Infrastructure مربوط به Actionهای تولیدشده قابل استفاده است.

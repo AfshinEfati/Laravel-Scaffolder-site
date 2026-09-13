@@ -5,16 +5,21 @@ lang: fa
 
 # Actionها
 
-Actionها Use Caseهای CRUD را در کلاس‌های کوچک و متمرکز جدا می‌کنند.
+Action Generator یک BaseAction و Actionهای متمرکز ماژول می‌سازد:
 
-```php
-final class CreateProductAction
-{
-    public function __invoke(ProductDTO $dto): Product
-    {
-        return $this->service->create($dto);
-    }
-}
+```text
+app/Actions/BaseAction.php
+app/Actions/Product/
+├── ListProductAction.php
+├── ShowProductAction.php
+├── CreateProductAction.php
+├── UpdateProductAction.php
+├── DeleteProductAction.php
+└── ListWithRelationsProductAction.php
 ```
 
-Controller می‌تواند به‌جای مدیریت مستقیم Service، Action مناسب را صدا بزند تا لایه‌ی HTTP از عملیات Application جدا بماند.
+هر Action یک Operation مشخص را از طریق Service هماهنگ می‌کند. `ListWithRelations` برای Flow لیست همراه Relation جدا شده تا Action عادی List بیش از حد مسئولیت نگیرد.
+
+Create/Update در صورت فعال بودن DTO، DTO-aware هستند و با `--no-dto` به Array-based payload تغییر می‌کنند.
+
+API Mode Actionها را خودکار فعال می‌کند مگر `--no-actions` داده شود.

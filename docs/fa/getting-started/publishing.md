@@ -5,30 +5,39 @@ lang: fa
 
 # Publish و Stub سفارشی
 
-پکیج دو Publish Tag اصلی دارد.
+پکیج دو Publish Tag با مسئولیت متفاوت دارد.
 
-## زیرساخت پایه
+## `module-generator`
 
 ```bash
 php artisan vendor:publish --tag=module-generator
 ```
 
-Base Repository/Service، Contractها، `CriteriaInterface`، `ApiResponseHelper` و Config منتشر می‌شوند.
+BaseRepository، Interface آن، CriteriaInterface، BaseService، Interface آن، ApiResponseHelper و Config را وارد خود پروژه می‌کند.
 
-## Stubهای Generator
+این فایل‌ها بعد از Publish متعلق به Application هستند و می‌توانید مطابق استاندارد پروژه تغییرشان دهید.
+
+## `module-generator-stubs`
 
 ```bash
 php artisan vendor:publish --tag=module-generator-stubs
 ```
 
-Templateها در مسیر زیر قرار می‌گیرند:
+Templateهای Generator را به این مسیر می‌برد:
 
 ```text
 resources/stubs/module-generator/
 ```
 
-بعد از Publish می‌توانی شکل Controller، DTO، Policy، Action و سایر خروجی‌ها را با استاندارد تیم خودت هماهنگ کنی.
-
 ::: warning
-Stub سفارشی بعد از Publish متعلق به پروژه‌ی توست و نسخه‌های جدید پکیج نمی‌توانند تغییرات آن را خودکار روی نسخه‌ی سفارشی اعمال کنند.
+Stub Publish‌شده Copy مستقل پروژه است؛ Upgrade پکیج نمی‌تواند تغییرات Template جدید را روی Custom Stub شما Merge کند. هنگام Upgrade اختلاف‌ها را بررسی کنید.
 :::
+
+## Flow پیشنهادی
+
+1. Stubها را Publish کنید؛
+2. نسخه دست‌نخورده را Commit کنید؛
+3. هر بار یک Template را تغییر دهید؛
+4. یک ماژول آزمایشی بسازید؛
+5. Namespace/Import/Testها را بررسی کنید؛
+6. بعد از آن روی Feature واقعی استفاده کنید.
