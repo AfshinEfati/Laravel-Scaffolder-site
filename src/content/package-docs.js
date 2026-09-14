@@ -11,25 +11,26 @@ export const packageDocs = {
       ]
     },
     features: [
-      'Module Generator',
+      'Complete Feature Stack Generator',
       'Repository Contracts and Eloquent Repositories',
       'Service Classes and Contracts',
       'DTO Generation',
       'CRUD Actions',
-      'Controllers',
-      'Form Requests',
+      'Controllers and Form Requests',
       'API Resources',
-      'Policies',
+      'Policies and Authorization Layers',
       'Service Providers and Bindings',
       'Feature Tests',
-      'Swagger / OpenAPI Documentation',
-      'Migration and Inline Schema Parsing'
+      'OpenAPI / Swagger Generation',
+      'Migration Parser',
+      'Inline Schema Generation',
+      'Configurable Generation Options'
     ],
     workflow: [
-      'Create or prepare your model',
-      'Run make:module with required options',
-      'Review generated layers',
-      'Customize generated code for your application'
+      'Prepare model or schema definition',
+      'Run make:module command',
+      'Review generated architecture layers',
+      'Customize business rules'
     ]
   },
   fa: {
@@ -44,25 +45,26 @@ export const packageDocs = {
       ]
     },
     features: [
-      'سازنده ماژول',
+      'تولید کامل Feature Stack',
       'Repository و Contract ها',
       'Service و Contract ها',
       'تولید DTO',
       'تولید Action های CRUD',
-      'Controller',
-      'Form Request',
+      'Controller و Form Request',
       'API Resource',
-      'Policy',
+      'Policy و لایه دسترسی',
       'Service Provider و Binding',
       'تست های Feature',
       'Swagger و OpenAPI',
-      'تولید از Migration و Schema دستی'
+      'خواندن Migration',
+      'تولید از Schema دستی',
+      'تنظیمات قابل شخصی سازی Generator'
     ],
     workflow: [
-      'ساخت یا آماده سازی Model',
-      'اجرای دستور make:module با گزینه های مورد نیاز',
-      'بررسی لایه های ایجاد شده',
-      'شخصی سازی کد تولید شده در پروژه'
+      'آماده سازی Model یا Schema',
+      'اجرای make:module',
+      'بررسی معماری تولید شده',
+      'تکمیل منطق کسب و کار'
     ]
   }
 }
