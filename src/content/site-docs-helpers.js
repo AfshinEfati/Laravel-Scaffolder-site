@@ -1,8 +1,0 @@
-export const code = (lang, value) => ({ type: 'code', lang, value })
-export const p = (value) => ({ type: 'p', value })
-export const h2 = (value) => ({ type: 'h2', value })
-export const h3 = (value) => ({ type: 'h3', value })
-export const ul = (items) => ({ type: 'ul', items })
-export const table = (headers, rows) => ({ type: 'table', headers, rows })
-export const note = (value) => ({ type: 'note', value })
-export const steps = (items) => ({ type: 'steps', items })
