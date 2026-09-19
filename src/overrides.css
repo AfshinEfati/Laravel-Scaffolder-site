@@ -1,0 +1,10 @@
+/* Targeted fixes on top of the existing documentation stylesheet. */
+.landing-footer{max-width:none;margin:0;display:block;width:100%;font-size:inherit;position:static}
+.landing-footer .footer-inner{max-width:1220px}
+.landing-brand .brand-symbol{font-size:0;letter-spacing:0}
+.landing-brand .brand-symbol::before{content:'{ }';font:700 16px var(--code)}
+.docs-shell .sidebar nav button:focus-visible,.docs-shell .actions button:focus-visible,.docs-shell .brand:focus-visible,.docs-shell .codebar button:focus-visible{outline:2px solid #70e4c0;outline-offset:2px}
+.docs-shell .body .code pre{tab-size:2}
+.docs-shell .main{padding-bottom:100px}
+@media(max-width:900px){.docs-shell .sidebar nav{scrollbar-width:thin;scrollbar-color:#366258 transparent}.docs-shell .sidebar nav button{min-height:42px}.docs-shell .sidebar{background:#0e151e}.docs-shell .search input{font-size:14px}}
+@media(max-width:620px){.landing-footer .footer-inner{display:block}.docs-shell .topbar-inner{gap:6px}.docs-shell .actions{gap:4px}.docs-shell .actions button{padding:7px 8px}.docs-shell .brand{gap:6px}.docs-shell .brand .logo{width:30px;height:30px}}
