@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
-import App from './App.vue'
+import SiteRoot from './SiteRoot.vue'
 import './style.css'
+import './landing.css'
 
-createApp(App).mount('#app')
+createApp(SiteRoot).mount('#app')
